@@ -1,6 +1,6 @@
-# pRojekt - 1
+# pRojekt
 
-Projekt - analiza danych 25/26 mnjnkjnnj
+Projekt - analiza danych 25/26
 dzień dobry :)
 witammmm
 Witaj, nowy dzień nadchodzi,
