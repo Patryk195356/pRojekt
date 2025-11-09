@@ -20,7 +20,7 @@ output:
 knitr::opts_chunk$set(cache = TRUE)
 dane <- read.csv("cancer patient data sets.csv")
 dane
-
+library(tidyverse)
 ```
 
 # Wprowadzenie 
