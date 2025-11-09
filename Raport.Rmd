@@ -30,10 +30,17 @@ Celem naszego projektu jest analiza zbioru danych dotyczących pacjentów z raki
 ## Opis danych 
 
 Zbiór danych zawiera następujące kolumny: 
+
 - ID pacjenta: Unikalny identyfikator pacjenta. 
 - Wiek: Wiek pacjenta w momencie diagnozy. 
+
 - Płeć: Płeć pacjenta (Mężczyzna/Kobieta). 
+
 - Stadium choroby: Stopień zaawansowania choroby (I, II, III , IV). 
+
 - Typ raka: Rodzaj nowotworu (np. rak piersi, rak płuc itp.). 
+
 - Wynik leczenia: Informacja o skuteczności leczenia (wyleczony, w trakcie leczenia, zmarły). 
+
 - Czas przeżycia: Czas od diagnozy do ostatniego kontaktu lub śmierci (w miesią cach).
+
