@@ -14,7 +14,7 @@ output:
     fig_width: 8
     fig_height: 5
     fig_caption: true
-    
+    a
 ---
 
 ```{r setup, include=FALSE}
