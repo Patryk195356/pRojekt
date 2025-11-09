@@ -42,5 +42,5 @@ Zbiór danych zawiera następujące kolumny:
 
 - Wynik leczenia: Informacja o skuteczności leczenia (wyleczony, w trakcie leczenia, zmarły). 
 
-- Czas przeżycia: Czas od diagnozy do ostatniego kontaktu lub śmierci (w miesią cach).
+- Czas przeżycia: Czas od diagnozy do ostatniego kontaktu lub śmierci (w miesiącach).
 
