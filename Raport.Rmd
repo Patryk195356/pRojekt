@@ -1,0 +1,25 @@
+---
+title: "Buszek_śmierdziuszek"
+author: "Patryk Woźniak, Iga Tumanik, Aleksandra Pellowska"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::material:
+    highlight: kate
+    toc: true
+    toc_depth: 3
+    theme: "pink"
+    self_contained: true
+    number_sections: true
+    code_folding: show
+    fig_width: 8
+    fig_height: 5
+    fig_caption: true
+    
+---
+
+```{r setup, include=FALSE}
+## Global options
+knitr::opts_chunk$set(cache = TRUE)
+dane <- read.csv("cancer patient data sets.csv")
+dane
+```
