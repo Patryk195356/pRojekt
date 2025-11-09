@@ -8,4 +8,4 @@ Witaj, nowy dzień nadchodzi,
 Słońce wstało i świeci na całego.
 Niechaj Twój uśmiech promieniuje,
 I spełniają się marzenia Twe.
-hey
+heyJM
