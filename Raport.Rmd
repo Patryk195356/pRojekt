@@ -1,20 +1,18 @@
 ---
-title: "Buszek_śmierdziuszek"
+title: "Czynnik wpływające na przebieg choroby nowotworowej"
 author: "Patryk Woźniak, Iga Tumanik, Aleksandra Pellowska"
 date: "`r Sys.Date()`"
 output:
   rmdformats::material:
     highlight: kate
-    toc: true
-    toc_depth: 3
-    theme: "pink"
+    #toc: true
+    #toc_depth: 3
     self_contained: true
     number_sections: true
     code_folding: show
     fig_width: 8
     fig_height: 5
     fig_caption: true
-    
 ---
 
 ```{r setup, include=FALSE}
@@ -24,5 +22,11 @@ dane <- read.csv("cancer patient data sets.csv")
 dane
 
 ```
-#Wprowadzenie
-Celem naszego projektu jest analiza zbioru danych dotyczących pacjentów z rakiem płuc. Zbiór danych zawiera informacje demograficzne, kliniczne oraz wyniki leczenia pacjentów. W ramach analizy przeprowadzimy eksploracyjną analizę danych (EDA), a także zastosujemy różne metody statystyczne i uczenia maszynowego w celu zidentyfikowania czynników wpływających na przebieg choroby oraz prognozowania wyników leczenia.
+
+# Wprowadzenie 
+
+Celem naszego projektu jest analiza zbioru danych dotyczących pacjentów z rakiem płuc. Zbiór danych zawiera informacje demograficzne, kliniczne oraz wyniki leczenia pacjentów. W ramach analizy przeprowadzimy eksploracyjną analizę danych (EDA), a także zastosujemy różne metody statystyczne i uczenia maszynowego w celu zidentyfikowania czynników wpływających na przebieg choroby oraz prognozowania wyników leczenia. Zbiór danych zawiera 'r nrows(dane)' wierszy oraz 'r ncools(dane)'.
+
+## Opis danych 
+
+Zbiór danych zawiera następujące kolumny: - ID pacjenta: Unikalny identyfikator pacjenta. - Wiek: Wiek pacjenta w momencie diagnozy. - Płeć: Płeć pacjenta (Mężczyzna/Kobieta). - Stadium choroby: Stopień zaawansowania choroby (I, II, III , IV). - Typ raka: Rodzaj nowotworu (np. rak piersi, rak płuc itp.). - Wynik leczenia: Informacja o skuteczności leczenia (wyleczony, w trakcie leczenia, zmarły). - Czas przeżycia: Czas od diagnozy do ostatniego kontaktu lub śmierci (w miesią cach).
