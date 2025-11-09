@@ -22,4 +22,7 @@ output:
 knitr::opts_chunk$set(cache = TRUE)
 dane <- read.csv("cancer patient data sets.csv")
 dane
+
 ```
+#Wprowadzenie
+Celem naszego projektu jest analiza zbioru danych dotyczących pacjentów z rakiem płuc. Zbiór danych zawiera informacje demograficzne, kliniczne oraz wyniki leczenia pacjentów. W ramach analizy przeprowadzimy eksploracyjną analizę danych (EDA), a także zastosujemy różne metody statystyczne i uczenia maszynowego w celu zidentyfikowania czynników wpływających na przebieg choroby oraz prognozowania wyników leczenia.
