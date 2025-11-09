@@ -44,3 +44,6 @@ Zbiór danych zawiera następujące kolumny:
 
 - Czas przeżycia: Czas od diagnozy do ostatniego kontaktu lub śmierci (w miesiącach).
 
+# Data Wrangling
+
+
