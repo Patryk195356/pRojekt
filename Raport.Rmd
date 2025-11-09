@@ -25,7 +25,7 @@ library(tidyverse)
 
 # Wprowadzenie 
 
-Celem naszego projektu jest analiza zbioru danych dotyczących pacjentów z rakiem płuc. Zbiór danych zawiera informacje demograficzne, kliniczne oraz wyniki leczenia pacjentów. W ramach analizy przeprowadzimy eksploracyjną analizę danych (EDA), a także zastosujemy różne metody statystyczne i uczenia maszynowego w celu zidentyfikowania czynników wpływających na przebieg choroby oraz prognozowania wyników leczenia. Zbiór danych zawiera 'r nrow (dane)' wierszy oraz 'r ncol(dane)'.
+Celem naszego projektu jest analiza zbioru danych dotyczących pacjentów z rakiem płuc. Zbiór danych zawiera informacje demograficzne, kliniczne oraz wyniki leczenia pacjentów. W ramach analizy przeprowadzimy eksploracyjną analizę danych (EDA), a także zastosujemy różne metody statystyczne i uczenia maszynowego w celu zidentyfikowania czynników wpływających na przebieg choroby oraz prognozowania wyników leczenia. Zbiór danych zawiera `r nrow(dane)` wierszy oraz `r ncol(dane)` kolumn.
 
 ## Opis danych 
 
