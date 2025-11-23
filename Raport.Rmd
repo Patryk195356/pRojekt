@@ -31,7 +31,9 @@ library(validatetools)
 library(dcmodify)
 
 library(errorlocate)
-
+df$gender<- factor(df$gender,
+                  levels = c(1,2),
+                  labels = c("Mężczyzna","Kobieta"))
 ```
 
 # Wprowadzenie 
@@ -82,14 +84,13 @@ Czy wiek <= 120?
 Czy gender to 1 lub 2?
 ```{r}
 reguly <- validator(
-  age >=0 & age <=120,
-  gender %in% c(1,2),
-  gender<- factor(df$plec,
-                  levels = c(1,2),
-                  labels = c("Mężczyzna","Kobieta"))
-)
+  age >=0 & age <=120)
 ```
 
+```{r}
+cf<- confront (retailers, rules, key="rec_id")
+summary(cf)
+```
 
 
 

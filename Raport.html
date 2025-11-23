@@ -1184,6 +1184,20 @@ danych</h2>
 ## 1000                        1             1         1       1     1 0
 ##                             0             0         0       0     0 0</code></pre>
 </div>
+<div id="walidacja-danych" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Walidacja danych</h2>
+<p>Czy wiek &lt;= 120? Czy gender to 1 lub 2?</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>reguly <span class="ot">&lt;-</span> <span class="fu">validator</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  age <span class="sc">&gt;=</span><span class="dv">0</span> <span class="sc">&amp;</span> age <span class="sc">&lt;=</span><span class="dv">120</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  gender <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  gender<span class="ot">&lt;-</span> <span class="fu">factor</span>(df<span class="sc">$</span>plec,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>                  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Mężczyzna&quot;</span>,<span class="st">&quot;Kobieta&quot;</span>))</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## Warning: Invalid syntax detected, the following expressions have been ignored:
+## [003] gender &lt;- factor(df$plec, levels = c(1, 2), labels = c(&quot;Mężczyzna&quot;, 
+## [003]     &quot;Kobieta&quot;))</code></pre>
+</div>
 </div>
 </div>
 
