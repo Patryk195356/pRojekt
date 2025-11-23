@@ -31,9 +31,7 @@ library(validatetools)
 library(dcmodify)
 
 library(errorlocate)
-df$gender<- factor(df$gender,
-                  levels = c(1,2),
-                  labels = c("Mężczyzna","Kobieta"))
+
 ```
 
 # Wprowadzenie 
@@ -81,15 +79,16 @@ missing_pattern(dane)
 ## Walidacja danych
 
 Czy wiek <= 120?
-Czy gender to 1 lub 2?
+
 ```{r}
 reguly <- validator(
-  age >=0 & age <=120)
+  Age >0 , Age <120)
 ```
 
 ```{r}
-cf<- confront (retailers, rules, key="rec_id")
+cf<- confront(dane, reguly, key="index")
 summary(cf)
+barplot(cf)
 ```
 
 
