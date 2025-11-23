@@ -45,44 +45,45 @@ Celem naszego projektu jest analiza zbioru danych dotyczących pacjentów z raki
 
 Zbiór danych zawiera następujące kolumny: 
 
-Age: Wiek pacjenta
+-Age: Wiek pacjenta
 
-Gender: Płeć pacjenta
+-Gender: Płeć pacjenta
 
-Air Pollution: Poziom narażenia pacjenta na zanieczyszczenie powietrza
+-Air Pollution: Poziom narażenia pacjenta na zanieczyszczenie powietrza
 
-Alcohol use: Poziom spożycia alkoholu przez pacjenta
+-Alcohol use: Poziom spożycia alkoholu przez pacjenta
 
-Dust Allergy: Poziom alergii na kurz u pacjenta
+-Dust Allergy: Poziom alergii na kurz u pacjenta
 
-Occupational Hazards: Poziom zagrożeń zawodowych, na jakie narażony jest pacjent
-Genetic Risk: Poziom ryzyka genetycznego pacjenta
+-Occupational Hazards: Poziom zagrożeń zawodowych, na jakie narażony jest pacjent
 
-Chronic Lung Disease: Poziom nasilenia przewlekłej choroby płuc u pacjenta
+-Genetic Risk: Poziom ryzyka genetycznego pacjenta
 
-Balanced Diet: Stopień stosowania przez pacjenta zbilansowanej diety
+-Chronic Lung Disease: Poziom nasilenia przewlekłej choroby płuc u pacjenta
 
-Obesity: Poziom otyłości pacjenta
+-Balanced Diet: Stopień stosowania przez pacjenta zbilansowanej diety
 
-Smoking: Poziom palenia tytoniu przez pacjenta
+-Obesity: Poziom otyłości pacjenta
 
-Passive Smoker: Poziom narażenia pacjenta na bierne palenie
+-Smoking: Poziom palenia tytoniu przez pacjenta
 
-Chest Pain: Poziom bólu w klatce piersiowej u pacjenta
+-Passive Smoker: Poziom narażenia pacjenta na bierne palenie
 
-Coughing of Blood: Poziom krwioplucia u pacjenta
+-Chest Pain: Poziom bólu w klatce piersiowej u pacjenta
 
-Fatigue: Poziom zmęczenia pacjenta
+-Coughing of Blood: Poziom krwioplucia u pacjenta
 
-Weight Loss: Poziom utraty masy ciała u pacjenta
+-Fatigue: Poziom zmęczenia pacjenta
 
-Shortness of Breath: Poziom duszności u pacjenta
+-Weight Loss: Poziom utraty masy ciała u pacjenta
 
-Wheezing: Poziom świszczącego oddechu u pacjenta
+-Shortness of Breath: Poziom duszności u pacjenta
 
-Swallowing Difficulty: Stopień trudności w połykaniu u pacjenta
+-Wheezing: Poziom świszczącego oddechu u pacjenta
 
-Clubbing of Finger Nails: Stopień pałeczkowatości palców u pacjenta
+-Swallowing Difficulty: Stopień trudności w połykaniu u pacjenta
+
+-Clubbing of Finger Nails: Stopień pałeczkowatości palców u pacjenta
 
 # Data Wrangling
 
