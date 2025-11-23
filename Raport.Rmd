@@ -31,8 +31,11 @@ library(validatetools)
 library(dcmodify)
 
 library(errorlocate)
-
+dane$Gender <- factor(dane$Gender,
+                      levels = c(1, 2),
+                      labels = c("mężczyzna", "kobieta"))
 ```
+
 
 # Wprowadzenie 
 
@@ -42,18 +45,44 @@ Celem naszego projektu jest analiza zbioru danych dotyczących pacjentów z raki
 
 Zbiór danych zawiera następujące kolumny: 
 
-- ID pacjenta: Unikalny identyfikator pacjenta. 
-- Wiek: Wiek pacjenta w momencie diagnozy. 
+Age: Wiek pacjenta
 
-- Płeć: Płeć pacjenta (Mężczyzna/Kobieta). 
+Gender: Płeć pacjenta
 
-- Stadium choroby: Stopień zaawansowania choroby (I, II, III , IV). 
+Air Pollution: Poziom narażenia pacjenta na zanieczyszczenie powietrza
 
-- Typ raka: Rodzaj nowotworu (np. rak piersi, rak płuc itp.). 
+Alcohol use: Poziom spożycia alkoholu przez pacjenta
 
-- Wynik leczenia: Informacja o skuteczności leczenia (wyleczony, w trakcie leczenia, zmarły). 
+Dust Allergy: Poziom alergii na kurz u pacjenta
 
-- Czas przeżycia: Czas od diagnozy do ostatniego kontaktu lub śmierci (w miesiącach).
+Occupational Hazards: Poziom zagrożeń zawodowych, na jakie narażony jest pacjent
+Genetic Risk: Poziom ryzyka genetycznego pacjenta
+
+Chronic Lung Disease: Poziom nasilenia przewlekłej choroby płuc u pacjenta
+
+Balanced Diet: Stopień stosowania przez pacjenta zbilansowanej diety
+
+Obesity: Poziom otyłości pacjenta
+
+Smoking: Poziom palenia tytoniu przez pacjenta
+
+Passive Smoker: Poziom narażenia pacjenta na bierne palenie
+
+Chest Pain: Poziom bólu w klatce piersiowej u pacjenta
+
+Coughing of Blood: Poziom krwioplucia u pacjenta
+
+Fatigue: Poziom zmęczenia pacjenta
+
+Weight Loss: Poziom utraty masy ciała u pacjenta
+
+Shortness of Breath: Poziom duszności u pacjenta
+
+Wheezing: Poziom świszczącego oddechu u pacjenta
+
+Swallowing Difficulty: Stopień trudności w połykaniu u pacjenta
+
+Clubbing of Finger Nails: Stopień pałeczkowatości palców u pacjenta
 
 # Data Wrangling
 
@@ -68,6 +97,7 @@ procent <- prop_complete_var(dane)*100
 W danych znajduje się `r procent` % kompletnych wartości 
 ```{r}
 naniar::vis_miss(dane)
+gg_miss_fct(x=dane, fct=Gender)
 ```
 
 ## Wzorzec braków danych
