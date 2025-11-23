@@ -79,11 +79,16 @@ missing_pattern(dane)
 ## Walidacja danych
 
 Czy wiek <= 120?
-Czy płeć kobieta=2 lub mężczyzna=1?
-Kiedy gender=2, czy genetic risk>3?
-Kiedy alcohol use>3, czy weight loss>4?
-Czy patient Id się nie powtarza? (występuje tylko raz)
-
+Czy gender to 1 lub 2?
+```{r}
+reguly <- validator(
+  age >=0 & age <=120,
+  gender %in% c(1,2),
+  gender<- factor(df$plec,
+                  levels = c(1,2),
+                  labels = c("Mężczyzna","Kobieta"))
+)
+```
 
 
 
