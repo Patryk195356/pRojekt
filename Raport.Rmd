@@ -60,8 +60,16 @@ W danych znajduje się `r procent` % kompletnych wartości
 ```{r}
 naniar::vis_miss(dane)
 ```
-```{r}
 
+## Wzorzec braków danych
+
+```{r}
+library(finalfit)
+missing_pattern(dane)
 ```
+
+
+
+
 
 
