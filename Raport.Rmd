@@ -132,6 +132,7 @@ ggplot(dane, aes(x = Age)) +
   geom_histogram(bins = 20) +
   theme_minimal()
 ```
+
 ## Wykres słupkowy poziomu choroby 
 
 Pokazuje proporcje pacjentów w każdej kategorii poziomu choroby („Low”, „Medium”, „High”)  
@@ -140,6 +141,7 @@ ggplot(dane, aes(x = Level)) +
   geom_bar() +
   theme_minimal()
 ```
+
 ## Wykres słupkowy skumulowany: Smoking vs. Level
 
  Palenie tytoniu to jeden z głównych czynników ryzyka raka płuc. Skumulowany wykres słupkowy pokazuje jednocześnie częstość poziomów choroby w każdej kategorii palenia.
