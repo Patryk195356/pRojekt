@@ -122,7 +122,7 @@ summary(cf)
 barplot(cf)
 ```
 
-
+#Wizualizacja danych
 
 
 
