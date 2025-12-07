@@ -122,7 +122,22 @@ summary(cf)
 barplot(cf)
 ```
 
-#Wizualizacja danych
-
-
-
+# Wizualizacja danych
+## Histogram wieku
+```{r}
+ggplot(dane, aes(x = Age)) +
+  geom_histogram(bins = 20) +
+  theme_minimal()
+```
+## Wykres słupkowy poziomu choroby 
+```{r}
+ggplot(dane, aes(x = Level)) +
+  geom_bar() +
+  theme_minimal()
+```
+## Wykres słupkowy skumulowany: Smoking vs. Level
+```{r}
+ggplot(dane, aes(x = Smoking, fill = Level)) +
+  geom_bar(position = "fill") +
+  ylab("Udział w grupie") +
+  theme_minimal()
