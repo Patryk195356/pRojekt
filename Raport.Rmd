@@ -43,67 +43,45 @@ Celem naszego projektu jest analiza zbioru danych dotyczących pacjentów z raki
 
 ## Opis danych 
 
-Zbiór danych zawiera następujące kolumny: 
+W danych uwzględniono m.in. wiek i płeć pacjentów, czynniki stylu życia takie jak palenie tytoniu, bierne palenie, spożycie alkoholu, dieta oraz występowanie otyłości. Zbiór obejmuje również informacje o narażeniu środowiskowym i zawodowym, w tym poziom zanieczyszczenia powietrza, alergię na kurz oraz ekspozycję zawodową. Dodatkowo uwzględniono objawy kliniczne i choroby współistniejące, takie jak przewlekła choroba płuc, kaszel z krwią, duszność, zmęczenie czy utrata masy ciała. Zmienną wynikową jest poziom zaawansowania choroby nowotworowej, sklasyfikowany jako niski (Low), średni (Medium) lub wysoki (High). Zebrane dane umożliwiają analizę zależności pomiędzy czynnikami ryzyka a stopniem zaawansowania choroby oraz ich graficzną prezentację.
 
--Age: Wiek pacjenta
+## Problemy badawcze
 
--Gender: Płeć pacjenta
+### Główny problem badawczy
 
--Air Pollution: Poziom narażenia pacjenta na zanieczyszczenie powietrza
+Jakie czynniki demograficzne, środowiskowe oraz związane ze stylem życia mają wpływ na poziom zaawansowania choroby nowotworowej u badanych pacjentów?
 
--Alcohol use: Poziom spożycia alkoholu przez pacjenta
+### Szczegółowe problemy badawcze
 
--Dust Allergy: Poziom alergii na kurz u pacjenta
+1. Jaki jest rozkład poziomu zaawansowania choroby nowotworowej (Low, Medium, High) w badanej grupie pacjentów?
 
--Occupational Hazards: Poziom zagrożeń zawodowych, na jakie narażony jest pacjent
+2. Czy poziom zaawansowania choroby nowotworowej różni się w zależności od płci pacjentów?
 
--Genetic Risk: Poziom ryzyka genetycznego pacjenta
+3. Czy wiek pacjentów ma związek z poziomem zaawansowania choroby nowotworowej?
 
--Chronic Lung Disease: Poziom nasilenia przewlekłej choroby płuc u pacjenta
+4. Czy palenie tytoniu wpływa na poziom zaawansowania choroby nowotworowej?
 
--Balanced Diet: Stopień stosowania przez pacjenta zbilansowanej diety
-
--Obesity: Poziom otyłości pacjenta
-
--Smoking: Poziom palenia tytoniu przez pacjenta
-
--Passive Smoker: Poziom narażenia pacjenta na bierne palenie
-
--Chest Pain: Poziom bólu w klatce piersiowej u pacjenta
-
--Coughing of Blood: Poziom krwioplucia u pacjenta
-
--Fatigue: Poziom zmęczenia pacjenta
-
--Weight Loss: Poziom utraty masy ciała u pacjenta
-
--Shortness of Breath: Poziom duszności u pacjenta
-
--Wheezing: Poziom świszczącego oddechu u pacjenta
-
--Swallowing Difficulty: Stopień trudności w połykaniu u pacjenta
-
--Clubbing of Finger Nails: Stopień pałeczkowatości palców u pacjenta
+5. Czy występowanie wybranych objawów klinicznych (np. kaszel z krwią, duszność, zmęczenie) wiąże się z wyższym poziomem choroby?
 
 # Data Wrangling
 
 ## Braki danych
 
-```{r}
+```{r echo=FALSE}
 procent <- prop_complete_var(dane)*100
 
 ```
 
 
 W danych znajduje się `r procent` % kompletnych wartości 
-```{r}
+```{r echo=FALSE}
 naniar::vis_miss(dane)
 gg_miss_fct(x=dane, fct=Gender)
 ```
 
 ## Wzorzec braków danych
 
-```{r}
+```{r echo=FALSE}
 library(finalfit)
 missing_pattern(dane)
 ```
@@ -111,12 +89,12 @@ missing_pattern(dane)
 
 Czy wiek <= 120?
 
-```{r}
+```{r echo=FALSE}
 reguly <- validator(
   Age >0 , Age <120)
 ```
 
-```{r}
+```{r echo=FALSE}
 cf<- confront(dane, reguly, key="index")
 summary(cf)
 barplot(cf)
@@ -127,7 +105,7 @@ barplot(cf)
 ## Histogram wieku
 
 Pozwala zobaczyć, jak rozkłada się wiek pacjentów w całej próbie – czy są młodzi, starsi, czy rozkład jest równomierny.
-```{r}
+```{r echo=FALSE}
 ggplot(dane, aes(x = Age)) +
   geom_histogram(bins = 20) +
   theme_minimal()
@@ -136,7 +114,7 @@ ggplot(dane, aes(x = Age)) +
 ## Wykres słupkowy poziomu choroby 
 
 Pokazuje proporcje pacjentów w każdej kategorii poziomu choroby („Low”, „Medium”, „High”)  
-```{r}
+```{r echo=FALSE}
 ggplot(dane, aes(x = Level)) +
   geom_bar() +
   theme_minimal()
@@ -145,7 +123,7 @@ ggplot(dane, aes(x = Level)) +
 ## Wykres słupkowy skumulowany: Smoking vs. Level
 
  Palenie tytoniu to jeden z głównych czynników ryzyka raka płuc. Skumulowany wykres słupkowy pokazuje jednocześnie częstość poziomów choroby w każdej kategorii palenia.
-```{r}
+```{r echo=FALSE}
 ggplot(dane, aes(x = Smoking, fill = Level)) +
   geom_bar(position = "fill") +
   ylab("Udział w grupie") +
