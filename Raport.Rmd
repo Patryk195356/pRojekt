@@ -128,3 +128,95 @@ ggplot(dane, aes(x = Smoking, fill = Level)) +
   geom_bar(position = "fill") +
   ylab("Udział w grupie") +
   theme_minimal()
+```
+
+## Główny problem badawczy: 
+
+Jakie czynniki demograficzne, środowiskowe oraz związane ze stylem życia mają wpływ na poziom zaawansowania choroby?
+
+Płeć
+```{r echo=FALSE}
+ggplot(dane, aes(x = Gender, fill = Level)) +
+  geom_bar(position = "fill") +
+  theme_minimal()
+```
+Zanieczyszczenie powietrza
+```{r echo=FALSE}
+ggplot(dane, aes(x = Air.Pollution, fill = Level)) +
+  geom_bar(position = "fill") +
+  theme_minimal()
+```
+Palenie
+```{r echo=FALSE}
+ggplot(dane, aes(x = Smoking, fill = Level)) +
+  geom_bar(position = "fill") +
+  theme_minimal()
+```
+
+## Szczegółowe problemy badawcze:
+
+Rozkład poziomu zaawansowania choroby
+``` {r echo=FALSE}
+ggplot(dane, aes(x = Level)) +
+  geom_bar() +
+  labs(
+    title = "Rozkład poziomu zaawansowania choroby nowotworowej",
+    x = "Poziom choroby",
+    y = "Liczba pacjentów"
+  ) +
+  theme_minimal()
+```
+Zaawansowanie choroby a płeć
+```{r echo=FALSE}
+ggplot(dane, aes(x = Gender, fill = Level)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "Poziom choroby a płeć pacjentów",
+    x = "Płeć",
+    y = "Udział poziomów choroby"
+  ) +
+  theme_minimal()
+```
+Zaawansowanie choroby a wiek
+```{r echo=FALSE}
+ggplot(dane, aes(x = Level, y = Age, fill = Level)) +
+  geom_boxplot() +
+  labs(
+    title = "Wiek pacjentów a poziom zaawansowania choroby",
+    x = "Poziom choroby",
+    y = "Wiek"
+  ) +
+  theme_minimal()
+```
+Wpływ palenia na poziom zaawansowania nowotworu
+``` {r echo=FALSE}
+ggplot(dane, aes(x = Smoking, fill = Level)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "Palenie tytoniu a poziom choroby nowotworowej",
+    x = "Poziom palenia",
+    y = "Udział poziomów choroby"
+  ) +
+  theme_minimal()
+```
+Objawy towarzyszące a zaawansowanie choroby 
+```{r echo=FALSE}
+ggplot(dane, aes(x = Level, y = as.numeric(Coughing.of.Blood))) +
+  geom_boxplot() +
+  labs(
+    title = "Kaszel z krwią a poziom choroby",
+    x = "Poziom choroby",
+    y = "Nasilenie kaszlu z krwią"
+  ) +
+  theme_minimal()
+```
+```{r echo=FALSE}
+ggplot(dane, aes(x = Fatigue, fill = Level)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "Zmęczenie a poziom choroby",
+    x = "Poziom zmęczenia",
+    y = "Udział poziomów choroby"
+  ) +
+  theme_minimal()
+```
