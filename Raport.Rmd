@@ -141,26 +141,26 @@ ggplot(dane, aes(x = Level)) +
 
 Jakie czynniki demograficzne, środowiskowe oraz związane ze stylem życia mają wpływ na poziom zaawansowania choroby?
 
-Płeć
+**Płeć**
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Gender, fill = Level)) +
   geom_bar(position = "fill") +
   theme_minimal()
 ```
 
-Zanieczyszczenie powietrza
+**Zanieczyszczenie powietrza**
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Air.Pollution, fill = Level)) +
   geom_bar(position = "fill") +
   theme_minimal()
 ```
-Palenie
+**Palenie**
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Smoking, fill = Level)) +
   geom_bar(position = "fill") +
   theme_minimal()
 ```
-Otyłość
+**Otyłość**
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Obesity, fill = Level)) +
   geom_bar(position = "fill") +
