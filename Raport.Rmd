@@ -149,7 +149,6 @@ ggplot(dane, aes(x = Level)) +
   theme_minimal()
 ```
 
-**test**
 
 ## Szczegółowe problemy badawcze:
 
@@ -164,7 +163,7 @@ ggplot(dane, aes(x = Level)) +
   ) +
   theme_minimal()
 ```
-Z wykresu wynika że najwięcej pacjentów znajduje się w grupie o wysokim poziomie zaawansowania choroby nowotworowej
+Z wykresu wynika, że najwięcej pacjentów znajduje się w grupie o wysokim poziomie zaawansowania choroby nowotworowej
 
 
 **Zaawansowanie choroby a płeć**
