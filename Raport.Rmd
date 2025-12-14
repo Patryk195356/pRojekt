@@ -31,9 +31,11 @@ library(validatetools)
 library(dcmodify)
 
 library(errorlocate)
+
 dane$Gender <- factor(dane$Gender,
                       levels = c(1, 2),
                       labels = c("mężczyzna", "kobieta"))
+
 ```
 
 
@@ -102,31 +104,36 @@ barplot(cf)
 
 # Wizualizacja danych
 
-## Histogram wieku
+## Charakterystyka badanej grupy
 
-Pozwala zobaczyć, jak rozkłada się wiek pacjentów w całej próbie – czy są młodzi, starsi, czy rozkład jest równomierny.
+Płeć
+```{r echo=FALSE}
+ggplot(dane, aes(x = Gender)) +
+  geom_bar(fill = "#5FB3A2", color = "grey30") +
+  labs(
+    title = "Rozkład płci w badanej grupie pacjentów",
+    x = "Płeć",
+    y = "Liczba pacjentów"
+  )
+```
+
+Rozkład wieku 
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Age)) +
   geom_histogram(bins = 20) +
   theme_minimal()
 ```
 
-## Wykres słupkowy poziomu choroby 
+Poziom zaawansowania choroby 
 
-Pokazuje proporcje pacjentów w każdej kategorii poziomu choroby („Low”, „Medium”, „High”)  
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Level)) +
   geom_bar() +
-  theme_minimal()
-```
-
-## Wykres słupkowy skumulowany: Smoking vs. Level
-
- Palenie tytoniu to jeden z głównych czynników ryzyka raka płuc. Skumulowany wykres słupkowy pokazuje jednocześnie częstość poziomów choroby w każdej kategorii palenia.
-```{r echo=FALSE}
-ggplot(dane, aes(x = Smoking, fill = Level)) +
-  geom_bar(position = "fill") +
-  ylab("Udział w grupie") +
+  labs(
+    title = "Poziom zaawansowania nowotworu w badanej grupie pacjentów",
+    x = "Zaawansowanie choroby",
+    y = "Liczba pacjentów"
+  ) +
   theme_minimal()
 ```
 
@@ -140,6 +147,7 @@ ggplot(dane, aes(x = Gender, fill = Level)) +
   geom_bar(position = "fill") +
   theme_minimal()
 ```
+
 Zanieczyszczenie powietrza
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Air.Pollution, fill = Level)) +
@@ -149,6 +157,12 @@ ggplot(dane, aes(x = Air.Pollution, fill = Level)) +
 Palenie
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Smoking, fill = Level)) +
+  geom_bar(position = "fill") +
+  theme_minimal()
+```
+Otyłość
+```{r echo=FALSE}
+ggplot(dane, aes(x = Obesity, fill = Level)) +
   geom_bar(position = "fill") +
   theme_minimal()
 ```
@@ -200,6 +214,7 @@ ggplot(dane, aes(x = Smoking, fill = Level)) +
   theme_minimal()
 ```
 Objawy towarzyszące a zaawansowanie choroby 
+Kaszel z krwią
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Level, y = as.numeric(Coughing.of.Blood))) +
   geom_boxplot() +
@@ -210,12 +225,24 @@ ggplot(dane, aes(x = Level, y = as.numeric(Coughing.of.Blood))) +
   ) +
   theme_minimal()
 ```
+Zmęczenie a poziom zaawansowania choroby
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Fatigue, fill = Level)) +
   geom_bar(position = "fill") +
   labs(
     title = "Zmęczenie a poziom choroby",
     x = "Poziom zmęczenia",
+    y = "Udział poziomów choroby"
+  ) +
+  theme_minimal()
+```
+Duszności
+```{r echo=FALSE}
+ggplot(dane, aes(x = as.numeric(Shortness.of.Breath), fill = Level)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "Duszności a poziom choroby",
+    x = "Częstość duszności",
     y = "Udział poziomów choroby"
   ) +
   theme_minimal()
