@@ -169,7 +169,7 @@ ggplot(dane, aes(x = Obesity, fill = Level)) +
 
 ## Szczegółowe problemy badawcze:
 
-Rozkład poziomu zaawansowania choroby
+**Rozkład poziomu zaawansowania choroby**
 ``` {r echo=FALSE}
 ggplot(dane, aes(x = Level)) +
   geom_bar() +
@@ -180,7 +180,10 @@ ggplot(dane, aes(x = Level)) +
   ) +
   theme_minimal()
 ```
-Zaawansowanie choroby a płeć
+Z wykresu wynika że najwięcej pacjentów znajduje się w grupie o wysokim poziomie zaawansowania choroby nowotworowej
+
+
+**Zaawansowanie choroby a płeć**
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Gender, fill = Level)) +
   geom_bar(position = "fill") +
@@ -191,7 +194,10 @@ ggplot(dane, aes(x = Gender, fill = Level)) +
   ) +
   theme_minimal()
 ```
-Zaawansowanie choroby a wiek
+U kobiet występuje większa równowaga między różnymi etapami choroby, podczas gdy u mężczyzn przeważa zaawansowany poziom choroby.
+
+
+**Zaawansowanie choroby a wiek**
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Level, y = Age, fill = Level)) +
   geom_boxplot() +
@@ -202,7 +208,11 @@ ggplot(dane, aes(x = Level, y = Age, fill = Level)) +
   ) +
   theme_minimal()
 ```
-Wpływ palenia na poziom zaawansowania nowotworu
+Pacjenci z zaawansowanym rakiem płuc są średnio młodsi, co może sugerować, że choroba może rozwijać się szybciej u młodszych osób lub występować w bardziej agresywnej formie.
+Pacjenci z 'low level' są średnio starsi, co może wskazywać, że choroba u starszych osób rozwija się wolniej lub mają one łagodniejszy przebieg choroby
+
+
+**Wpływ palenia na poziom zaawansowania nowotworu**
 ``` {r echo=FALSE}
 ggplot(dane, aes(x = Smoking, fill = Level)) +
   geom_bar(position = "fill") +
@@ -213,8 +223,9 @@ ggplot(dane, aes(x = Smoking, fill = Level)) +
   ) +
   theme_minimal()
 ```
-Objawy towarzyszące a zaawansowanie choroby 
-Kaszel z krwią
+Z wykresu wynika że intensywniejsze palenie tytoniu wiąże się z wyższym zaawansowaniem nowotworu.
+
+**Objawy towarzyszące a zaawansowanie choroby - Kaszel z krwią**
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Level, y = as.numeric(Coughing.of.Blood))) +
   geom_boxplot() +
@@ -225,7 +236,10 @@ ggplot(dane, aes(x = Level, y = as.numeric(Coughing.of.Blood))) +
   ) +
   theme_minimal()
 ```
-Zmęczenie a poziom zaawansowania choroby
+Wykres przedstawia, że nasilenie występowania kaszlu z krwią rośnie wraz z poziomem nasilenia choroby, szczególnie w grupach o średnim i wysokim zaawansowaniu, gdzie objaw ten jest bardziej wyraźny i zmienny.
+
+
+**Zmęczenie a poziom zaawansowania choroby**
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Fatigue, fill = Level)) +
   geom_bar(position = "fill") +
@@ -236,7 +250,11 @@ ggplot(dane, aes(x = Fatigue, fill = Level)) +
   ) +
   theme_minimal()
 ```
-Duszności
+Zmęczenie może być wskaźnikiem nasilenia choroby co sugeruje związek między rosnącym poziomem zmęczenia a zaawansowaniem choroby.
+
+
+
+**Duszności**
 ```{r echo=FALSE}
 ggplot(dane, aes(x = as.numeric(Shortness.of.Breath), fill = Level)) +
   geom_bar(position = "fill") +
@@ -247,3 +265,4 @@ ggplot(dane, aes(x = as.numeric(Shortness.of.Breath), fill = Level)) +
   ) +
   theme_minimal()
 ```
+Wraz ze wzrostem częstotliwości duszności, zwiększa się odsetek osób z zaawansowanym poziomem choroby. Wskazuje to na związek między nasileniem duszności a pogarszającym się stanem zdrowia pacjentów.
