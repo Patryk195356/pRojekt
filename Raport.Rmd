@@ -137,35 +137,23 @@ ggplot(dane, aes(x = Level)) +
   theme_minimal()
 ```
 
-## Główny problem badawczy: 
+**testowe**
+```{r echo=FALSE, fig.show="hold", out.width="33%"}
+ggplot(dane, aes(x = Gender)) +
+  geom_bar(fill = "#5FB3A2", color = "grey30") +
+  labs(title = "Płeć")
 
-Jakie czynniki demograficzne, środowiskowe oraz związane ze stylem życia mają wpływ na poziom zaawansowania choroby?
+ggplot(dane, aes(x = Age)) +
+  geom_histogram(bins = 20) +
+  theme_minimal() +
+  labs(title = "Wiek")
 
-**Płeć**
-```{r echo=FALSE}
-ggplot(dane, aes(x = Gender, fill = Level)) +
-  geom_bar(position = "fill") +
-  theme_minimal()
+ggplot(dane, aes(x = Level)) +
+  geom_bar() +
+  theme_minimal() +
+  labs(title = "Zaawansowanie choroby")
 ```
 
-**Zanieczyszczenie powietrza**
-```{r echo=FALSE}
-ggplot(dane, aes(x = Air.Pollution, fill = Level)) +
-  geom_bar(position = "fill") +
-  theme_minimal()
-```
-**Palenie**
-```{r echo=FALSE}
-ggplot(dane, aes(x = Smoking, fill = Level)) +
-  geom_bar(position = "fill") +
-  theme_minimal()
-```
-**Otyłość**
-```{r echo=FALSE}
-ggplot(dane, aes(x = Obesity, fill = Level)) +
-  geom_bar(position = "fill") +
-  theme_minimal()
-```
 
 ## Szczegółowe problemy badawcze:
 
