@@ -142,7 +142,7 @@ ggplot(dane, aes(x = Age)) +
 ggplot(dane, aes(x = Level)) +
   geom_bar() +
   labs(
-    title = "Poziom zaawansowania nowotworu w badanej grupie pacjentów",
+    title = "Poziom zaawansowania nowotworu w badanej grupie",
     x = "Zaawansowanie choroby",
     y = "Liczba pacjentów"
   ) +
@@ -158,12 +158,12 @@ ggplot(dane, aes(x = Level)) +
   geom_bar() +
   labs(
     title = "Rozkład poziomu zaawansowania choroby nowotworowej",
-    x = "Poziom choroby",
+    x = "Zaawansowanie choroby",
     y = "Liczba pacjentów"
   ) +
   theme_minimal()
 ```
-Z wykresu wynika, że najwięcej pacjentów znajduje się w grupie o wysokim poziomie zaawansowania choroby nowotworowej
+Z wykresu wynika, że najwięcej pacjentów znajduje się w grupie o wysokim poziomie zaawansowania nowotworu.
 
 
 **Zaawansowanie choroby a płeć**
@@ -171,7 +171,7 @@ Z wykresu wynika, że najwięcej pacjentów znajduje się w grupie o wysokim poz
 ggplot(dane, aes(x = Gender, fill = Level)) +
   geom_bar(position = "fill") +
   labs(
-    title = "Poziom choroby a płeć pacjentów",
+    title = "Zaawansowanie choroby a płeć pacjentów",
     x = "Płeć",
     y = "Udział poziomów choroby"
   ) +
@@ -192,7 +192,7 @@ ggplot(dane, aes(x = Level, y = Age, fill = Level)) +
   theme_minimal()
 ```
 Pacjenci z zaawansowanym rakiem płuc są średnio młodsi, co może sugerować, że choroba może rozwijać się szybciej u młodszych osób lub występować w bardziej agresywnej formie.
-Pacjenci z 'low level' są średnio starsi, co może wskazywać, że choroba u starszych osób rozwija się wolniej lub mają one łagodniejszy przebieg choroby
+Pacjenci z 'low level' są średnio starsi, co może wskazywać, że choroba u starszych osób rozwija się wolniej lub mają one łagodniejszy przebieg choroby.
 
 
 **Wpływ palenia na poziom zaawansowania nowotworu**
@@ -200,9 +200,9 @@ Pacjenci z 'low level' są średnio starsi, co może wskazywać, że choroba u s
 ggplot(dane, aes(x = Smoking, fill = Level)) +
   geom_bar(position = "fill") +
   labs(
-    title = "Palenie tytoniu a poziom choroby nowotworowej",
-    x = "Poziom palenia",
-    y = "Udział poziomów choroby"
+    title = "Palenie tytoniu a zaawansowanie choroby nowotworowej",
+    x = "Częstotliwość palenia",
+    y = "Zaawansowanie choroby"
   ) +
   theme_minimal()
 ```
@@ -214,7 +214,7 @@ ggplot(dane, aes(x = Level, y = as.numeric(Coughing.of.Blood))) +
   geom_boxplot() +
   labs(
     title = "Kaszel z krwią a poziom choroby",
-    x = "Poziom choroby",
+    x = "Zaawansowanie choroby",
     y = "Nasilenie kaszlu z krwią"
   ) +
   theme_minimal()
@@ -229,7 +229,7 @@ ggplot(dane, aes(x = Fatigue, fill = Level)) +
   labs(
     title = "Zmęczenie a poziom choroby",
     x = "Poziom zmęczenia",
-    y = "Udział poziomów choroby"
+    y = "Zaawansowanie choroby"
   ) +
   theme_minimal()
 ```
@@ -243,8 +243,8 @@ ggplot(dane, aes(x = as.numeric(Shortness.of.Breath), fill = Level)) +
   geom_bar(position = "fill") +
   labs(
     title = "Duszności a poziom choroby",
-    x = "Częstość duszności",
-    y = "Udział poziomów choroby"
+    x = "Częstotliwość duszności",
+    y = "Zaawansowanie choroby"
   ) +
   theme_minimal()
 ```
