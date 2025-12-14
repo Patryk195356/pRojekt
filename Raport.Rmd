@@ -106,7 +106,7 @@ barplot(cf)
 
 ## Charakterystyka badanej grupy
 
-Płeć
+**Płeć**
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Gender)) +
   geom_bar(fill = "#5FB3A2", color = "grey30") +
@@ -117,14 +117,14 @@ ggplot(dane, aes(x = Gender)) +
   )
 ```
 
-Rozkład wieku 
+**Rozkład wieku**
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Age)) +
   geom_histogram(bins = 20) +
   theme_minimal()
 ```
 
-Poziom zaawansowania choroby 
+**Poziom zaawansowania choroby**
 
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Level)) +
