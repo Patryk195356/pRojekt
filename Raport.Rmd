@@ -108,14 +108,26 @@ barplot(cf)
 
 **Płeć**
 ```{r echo=FALSE}
-ggplot(dane, aes(x = Gender)) +
-  geom_bar(fill = "#5FB3A2", color = "grey30") +
+dane %>%
+  count(Gender) %>%
+  mutate(percent = n / sum(n) * 100) %>%
+  ggplot(aes(x = "", y = n, fill = Gender)) +
+  geom_bar(stat = "identity", width = 1, color = "grey30") +
+  coord_polar(theta = "y") +
+  geom_text(
+    aes(label = paste0(round(percent, 1), "%")),
+    position = position_stack(vjust = 0.5),
+    color = "white",
+    size = 4
+  ) +
   labs(
     title = "Rozkład płci w badanej grupie pacjentów",
-    x = "Płeć",
-    y = "Liczba pacjentów"
-  )
+    fill = "Płeć"
+  ) +
+  theme_void()
+
 ```
+
 
 **Rozkład wieku**
 ```{r echo=FALSE}
@@ -137,23 +149,7 @@ ggplot(dane, aes(x = Level)) +
   theme_minimal()
 ```
 
-**testowe**
-```{r echo=FALSE, fig.show="hold", out.width="33%"}
-ggplot(dane, aes(x = Gender)) +
-  geom_bar(fill = "#5FB3A2", color = "grey30") +
-  labs(title = "Płeć")
-
-ggplot(dane, aes(x = Age)) +
-  geom_histogram(bins = 20) +
-  theme_minimal() +
-  labs(title = "Wiek")
-
-ggplot(dane, aes(x = Level)) +
-  geom_bar() +
-  theme_minimal() +
-  labs(title = "Zaawansowanie choroby")
-```
-
+**test**
 
 ## Szczegółowe problemy badawcze:
 
