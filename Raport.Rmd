@@ -113,7 +113,7 @@ dane %>%
   count(Gender) %>%
   mutate(percent = n / sum(n) * 100) %>%
   ggplot(aes(x = "", y = n, fill = Gender)) +
-  geom_bar(stat = "identity", width = 1, color = "grey30") +
+  geom_bar(stat = "identity", width = 1, color = "pink") +
   coord_polar(theta = "y") +
   geom_text(
     aes(label = paste0(round(percent, 1), "%")),
@@ -254,6 +254,16 @@ Wraz ze wzrostem częstotliwości duszności, zwiększa się odsetek osób z zaa
 
 # Statystyki opisowe
 
+library(gtsummary)
+library(tidyverse)
 
-
+dane %>%
+  select(Age, Gender, Genetic.Risk) %>%
+  tbl_summary(by = Gender,
+              missing = "no") %>%
+              add_p() %>%
+              add_overall() %>%
+              add_n() %>%
+              bold_labels()
+              
 
