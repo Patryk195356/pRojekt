@@ -134,6 +134,7 @@ dane %>%
 ggplot(dane, aes(x = Age)) +
   geom_histogram(bins = 20) +
   theme_minimal()
+
 ```
 
 **Poziom zaawansowania choroby**
@@ -160,7 +161,7 @@ ggplot(dane, aes(x = Level)) +
     title = "Rozkład poziomu zaawansowania choroby nowotworowej",
     x = "Zaawansowanie choroby",
     y = "Liczba pacjentów"
-  ) +
+  ) + 
   theme_minimal()
 ```
 Z wykresu wynika, że najwięcej pacjentów znajduje się w grupie o wysokim poziomie zaawansowania nowotworu.
