@@ -14,7 +14,6 @@ output:
     fig_height: 5
     fig_caption: true
 ---
-
 ```{r setup, include=FALSE}
 ## Global options
 knitr::opts_chunk$set(cache = TRUE)
@@ -31,6 +30,8 @@ library(validatetools)
 library(dcmodify)
 
 library(errorlocate)
+
+library(summarytools)
 
 dane$Gender <- factor(dane$Gender,
                       levels = c(1, 2),
@@ -250,3 +251,9 @@ ggplot(dane, aes(x = as.numeric(Shortness.of.Breath), fill = Level)) +
   theme_minimal()
 ```
 Wraz ze wzrostem częstotliwości duszności, zwiększa się odsetek osób z zaawansowanym poziomem choroby. Wskazuje to na związek między nasileniem duszności a pogarszającym się stanem zdrowia pacjentów.
+
+# Statystyki opisowe
+
+
+
+
