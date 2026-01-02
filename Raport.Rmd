@@ -31,7 +31,6 @@ library(dcmodify)
 
 library(errorlocate)
 
-library(summarytools)
 
 dane$Gender <- factor(dane$Gender,
                       levels = c(1, 2),
@@ -113,15 +112,15 @@ dane %>%
   count(Gender) %>%
   mutate(percent = n / sum(n) * 100) %>%
   ggplot(aes(x = "", y = n, fill = Gender)) +
-  geom_bar(stat = "identity", width = 1, color = "pink") +
+  geom_bar(stat = "identity", width = 1, color = "black") +
   coord_polar(theta = "y") +
   geom_text(
     aes(label = paste0(round(percent, 1), "%")),
     position = position_stack(vjust = 0.5),
-    color = "white",
+    color = "black",
     size = 4
-  ) +
-  labs(
+  ) 
+labs(
     title = "Rozkład płci w badanej grupie pacjentów",
     fill = "Płeć"
   ) +
@@ -129,11 +128,10 @@ dane %>%
 
 ```
 
-
 **Rozkład wieku**
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Age)) +
-  geom_histogram(bins = 20) +
+  geom_histogram(bins = 20, color = 'black', fill = 'cyan4') +
   theme_minimal()
 
 ```
@@ -142,7 +140,7 @@ ggplot(dane, aes(x = Age)) +
 
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Level)) +
-  geom_bar() +
+  geom_bar(color = 'black', fill = 'cyan4') +
   labs(
     title = "Poziom zaawansowania nowotworu w badanej grupie",
     x = "Zaawansowanie choroby",
@@ -157,7 +155,7 @@ ggplot(dane, aes(x = Level)) +
 **Rozkład poziomu zaawansowania choroby**
 ``` {r echo=FALSE}
 ggplot(dane, aes(x = Level)) +
-  geom_bar() +
+  geom_bar(color = 'black', fill = 'cyan4') +
   labs(
     title = "Rozkład poziomu zaawansowania choroby nowotworowej",
     x = "Zaawansowanie choroby",
@@ -172,7 +170,14 @@ Z wykresu wynika, że najwięcej pacjentów znajduje się w grupie o wysokim poz
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Gender, fill = Level)) +
   geom_bar(position = "fill") +
-  labs(
+scale_fill_manual(
+  values = c(
+    "Low"    = "cyan2",
+    "Medium" = "cyan3",
+    "High"   = "cyan4"
+  )
+) + 
+labs(
     title = "Zaawansowanie choroby a płeć pacjentów",
     x = "Płeć",
     y = "Udział poziomów choroby"
@@ -185,13 +190,21 @@ U kobiet występuje większa równowaga między różnymi etapami choroby, podcz
 **Zaawansowanie choroby a wiek**
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Level, y = Age, fill = Level)) +
-  geom_boxplot() +
+  geom_boxplot(color = "black") +
+  scale_fill_manual(
+    values = c(
+      "Low"    = "cyan2",
+    "Medium" = "cyan3",
+    "High"   = "cyan4"
+    )
+  ) +
   labs(
     title = "Wiek pacjentów a poziom zaawansowania choroby",
     x = "Poziom choroby",
     y = "Wiek"
   ) +
   theme_minimal()
+
 ```
 Pacjenci z zaawansowanym rakiem płuc są średnio młodsi, co może sugerować, że choroba może rozwijać się szybciej u młodszych osób lub występować w bardziej agresywnej formie.
 Pacjenci z 'low level' są średnio starsi, co może wskazywać, że choroba u starszych osób rozwija się wolniej lub mają one łagodniejszy przebieg choroby.
@@ -201,6 +214,13 @@ Pacjenci z 'low level' są średnio starsi, co może wskazywać, że choroba u s
 ``` {r echo=FALSE}
 ggplot(dane, aes(x = Smoking, fill = Level)) +
   geom_bar(position = "fill") +
+  scale_fill_manual(
+  values = c(
+    "Low"    = "cyan2",
+    "Medium" = "cyan3",
+    "High"   = "cyan4"
+  )
+) + 
   labs(
     title = "Palenie tytoniu a zaawansowanie choroby nowotworowej",
     x = "Częstotliwość palenia",
@@ -228,6 +248,13 @@ Wykres przedstawia, że nasilenie występowania kaszlu z krwią rośnie wraz z p
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Fatigue, fill = Level)) +
   geom_bar(position = "fill") +
+  scale_fill_manual(
+  values = c(
+    "Low"    = "cyan2",
+    "Medium" = "cyan3",
+    "High"   = "cyan4"
+  )
+) + 
   labs(
     title = "Zmęczenie a poziom choroby",
     x = "Poziom zmęczenia",
@@ -243,6 +270,13 @@ Zmęczenie może być wskaźnikiem nasilenia choroby co sugeruje związek międz
 ```{r echo=FALSE}
 ggplot(dane, aes(x = as.numeric(Shortness.of.Breath), fill = Level)) +
   geom_bar(position = "fill") +
+  scale_fill_manual(
+  values = c(
+    "Low"    = "cyan2",
+    "Medium" = "cyan3",
+    "High"   = "cyan4"
+  )
+) + 
   labs(
     title = "Duszności a poziom choroby",
     x = "Częstotliwość duszności",
