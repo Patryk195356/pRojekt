@@ -129,11 +129,29 @@ labs(
 ```
 
 **Rozkład wieku**
+
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Age)) +
-  geom_histogram(bins = 20, color = 'black', fill = 'cyan4') +
-  theme_minimal()
-
+  geom_histogram(
+    aes(y = after_stat(density)),
+    bins = 25,
+    fill = "cyan4",
+    color = "white",
+    alpha = 0.8
+  ) +
+  geom_density(
+    color = "cyan3",
+    linewidth = 1
+  ) +
+  labs(
+    title = "Rozkład wieku pacjentów",
+    x = "Wiek",
+    y = "Gęstość"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14)
+  )
 ```
 
 **Poziom zaawansowania choroby**
@@ -188,14 +206,37 @@ U kobiet występuje większa równowaga między różnymi etapami choroby, podcz
 
 
 **Zaawansowanie choroby a wiek**
+
 ```{r echo=FALSE}
 ggplot(dane, aes(x = Level, y = Age, fill = Level)) +
-  geom_boxplot(color = "black") +
+  geom_violin(
+    alpha = 0.5,
+    trim = FALSE,
+    color = NA
+  ) +
+  geom_boxplot(
+    width = 0.15,
+    alpha = 0.8,
+    color = "gray30",
+    outlier.shape = NA
+  ) +
+  geom_jitter(
+    width = 0.15,
+    alpha = 0.4,
+    size = 1.5,
+    color = "black"
+  ) +
+  stat_summary(
+    fun = median,
+    geom = "point",
+    size = 3,
+    color = "black"
+  ) +
   scale_fill_manual(
     values = c(
       "Low"    = "cyan2",
-    "Medium" = "cyan3",
-    "High"   = "cyan4"
+      "Medium" = "cyan3",
+      "High"   = "cyan4"
     )
   ) +
   labs(
@@ -203,12 +244,17 @@ ggplot(dane, aes(x = Level, y = Age, fill = Level)) +
     x = "Poziom choroby",
     y = "Wiek"
   ) +
-  theme_minimal()
-
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(face = "bold")
+  )
 ```
-Pacjenci z zaawansowanym rakiem płuc są średnio młodsi, co może sugerować, że choroba może rozwijać się szybciej u młodszych osób lub występować w bardziej agresywnej formie.
-Pacjenci z 'low level' są średnio starsi, co może wskazywać, że choroba u starszych osób rozwija się wolniej lub mają one łagodniejszy przebieg choroby.
+W grupie pacjentów z niskim poziomem zaawansowania choroby (Low) dominują osoby młodsze, a rozkład wieku koncentruje się w niższych przedziałach wiekowych.
 
+W grupie średniego zaawansowania choroby (Medium) obserwuje się przesunięcie rozkładu wieku w kierunku wyższych wartości oraz większe zróżnicowanie wieku pacjentów, co wskazuje na stopniowy wzrost wieku wraz z postępem choroby.
+
+w grupie wysokiego zaawansowania choroby (High) widoczne są najwyższe wartości mediany wieku, a większość obserwacji skupia się w górnych zakresach skali, co sugeruje, że zaawansowane stadium choroby częściej dotyczy pacjentów starszych.
 
 **Wpływ palenia na poziom zaawansowania nowotworu**
 ``` {r echo=FALSE}
@@ -231,18 +277,58 @@ ggplot(dane, aes(x = Smoking, fill = Level)) +
 Z wykresu wynika że intensywniejsze palenie tytoniu wiąże się z wyższym zaawansowaniem nowotworu.
 
 **Objawy towarzyszące a zaawansowanie choroby - Kaszel z krwią**
+
 ```{r echo=FALSE}
-ggplot(dane, aes(x = Level, y = as.numeric(Coughing.of.Blood))) +
-  geom_boxplot() +
+ggplot(
+  dane,
+  aes(x = Level, y = as.numeric(Coughing.of.Blood), fill = Level)
+) +
+  geom_violin(
+    alpha = 0.5,
+    trim = FALSE,
+    color = NA
+  ) +
+  geom_boxplot(
+    width = 0.15,
+    alpha = 0.8,
+    color = "gray30",
+    outlier.shape = NA
+  ) +
+  geom_jitter(
+    width = 0.15,
+    alpha = 0.4,
+    size = 1.5,
+    color = "black"
+  ) +
+  stat_summary(
+    fun = median,
+    geom = "point",
+    size = 3,
+    color = "black"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Low"    = "cyan2",
+      "Medium" = "cyan3",
+      "High"   = "cyan4"
+    )
+  ) +
   labs(
     title = "Kaszel z krwią a poziom choroby",
     x = "Zaawansowanie choroby",
     y = "Nasilenie kaszlu z krwią"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(face = "bold", size = 14)
+  )
 ```
-Wykres przedstawia, że nasilenie występowania kaszlu z krwią rośnie wraz z poziomem nasilenia choroby, szczególnie w grupach o średnim i wysokim zaawansowaniu, gdzie objaw ten jest bardziej wyraźny i zmienny.
+W grupie pacjentów z niskim poziomem zaawansowania choroby (Low) obserwuje się najniższe wartości nasilenia objawu, większość wyników skupia się w dolnym zakresie skali, co wskazuje, że kaszel z krwią występuje rzadko lub ma niewielkie nasilenie.
 
+W grupie średniego zaawansowania choroby (Medium) widoczny jest wzrost mediany oraz większe zróżnicowanie wyników, co sugeruje, że objaw pojawia się częściej, jednak jego intensywność jest zróżnicowana pomiędzy pacjentami.
+
+w grupie wysokiego zaawansowania choroby (High) wartości nasilenia kaszlu z krwią są najwyższe, a większość obserwacji koncentruje się w górnym zakresie skali, co wskazuje na częste i silne występowanie tego objawu w zaawansowanym stadium choroby.
 
 **Zmęczenie a poziom zaawansowania choroby**
 ```{r echo=FALSE}
