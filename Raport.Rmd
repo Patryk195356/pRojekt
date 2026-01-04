@@ -107,26 +107,6 @@ barplot(cf)
 ## Charakterystyka badanej grupy
 
 **Płeć**
-```{r echo=FALSE}
-dane %>%
-  count(Gender) %>%
-  mutate(percent = n / sum(n) * 100) %>%
-  ggplot(aes(x = "", y = n, fill = Gender)) +
-  geom_bar(stat = "identity", width = 1, color = "black") +
-  coord_polar(theta = "y") +
-  geom_text(
-    aes(label = paste0(round(percent, 1), "%")),
-    position = position_stack(vjust = 0.5),
-    color = "black",
-    size = 4
-  ) 
-labs(
-    title = "Rozkład płci w badanej grupie pacjentów",
-    fill = "Płeć"
-  ) +
-  theme_void()
-
-```
 
 ```{r echo=FALSE}
 dane %>%
