@@ -128,6 +128,38 @@ labs(
 
 ```
 
+```{r echo=FALSE}
+dane %>%
+  count(Gender) %>%
+  mutate(percent = n / sum(n) * 100) %>%
+  ggplot(aes(x = "", y = n, fill = Gender)) +
+  geom_bar(stat = "identity", width = 1, color = "white") +
+  coord_polar(theta = "y") +
+  geom_text(
+    aes(label = paste0(round(percent, 1), "%")),
+    position = position_stack(vjust = 0.5),
+    color = "black",
+    size = 4
+  ) +
+  scale_fill_manual(
+    values = c(
+      "mężczyzna" = "cyan4",
+      "kobieta"   = "cyan3"
+    ),
+    name = "Płeć"
+  ) +
+  labs(
+    title = "Rozkład płci w badanej grupie pacjentów",
+    x = "Liczebność",
+    y = "Udział"
+  ) +
+  theme_void() +
+  theme(
+    panel.background = element_blank(),
+    plot.background  = element_blank()
+  )
+
+```
 
 **Rozkład wieku**
 
