@@ -380,6 +380,8 @@ Wraz ze wzrostem częstotliwości duszności, zwiększa się odsetek osób z zaa
 
 # Statystyki opisowe
 
+```{r message=FALSE, warning=FALSE}
+
 library(gtsummary)
 library(tidyverse)
 
@@ -391,5 +393,6 @@ dane %>%
               add_overall() %>%
               add_n() %>%
               bold_labels()
+```
               
 
