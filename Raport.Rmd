@@ -395,6 +395,7 @@ dane %>%
               bold_labels()
 ```
 Analiza statystyczna wykazała istotne różnice w rozkładzie wieku oraz ryzyka genetycznego pomiędzy płciami. Kobiety wykazywały niższy odsetek wysokiego ryzyka genetycznego w porównaniu do mężczyzn. Różnice te mogą sugerować odmienne predyspozycje genetyczne lub wpływ czynników środowiskowych związanych z płcią.
+
 2. Wiek a poziom choroby 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -411,6 +412,7 @@ Analiza statystyczna wykazała istotne różnice w rozkładzie wieku oraz ryzyka
 Zaobserwowano, że wraz ze wzrostem poziomu choroby mediana wieku badanych ulega zwiększeniu, co może sugerować, że wyższy stopień zaawansowania choroby częściej dotyczy osób starszych. 
 
 3. Płeć a poziom choroby
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 dane %>%
   select(Gender, Level) %>%
@@ -424,6 +426,7 @@ dane %>%
 Analiza wskazuje na występowanie różnic w częstości poszczególnych poziomów choroby pomiędzy płciami, co może świadczyć o odmiennym przebiegu lub czynnikach ryzyka choroby w zależności od płci.
 
 4. Wiek a palenie
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 dane %>%
   select(Age, Smoking) %>%
@@ -437,6 +440,7 @@ dane %>%
 Wyniki wskazują na zróżnicowanie wieku badanych w zależności od poziomu palenia. W wyższych kategoriach palenia mediana wieku jest na ogół wyższa, co sugeruje, że intensywniejsze palenie częściej dotyczy osób starszych. Należy jednak zaznaczyć, że w niektórych kategoriach, zwłaszcza o małej liczebności, obserwacje należy interpretować ostrożnie.
 
 5. Wiek a poziom zanieczyszczenia powietrza
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 dane %>%
   select(Age, `Air.Pollution`) %>%
