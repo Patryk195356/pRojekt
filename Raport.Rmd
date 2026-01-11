@@ -1,6 +1,6 @@
 ---
 title: "Czynniki wpływające na przebieg choroby nowotworowej"
-author: "Patryk Woźniak, Iga Tumanik, Aleksandra Pellowska"
+author: "Iga Tumanik, Aleksandra Pellowska"
 date: "`r Sys.Date()`"
 output:
   rmdformats::material:
