@@ -452,3 +452,152 @@ dane %>%
 ```
 Wyniki mogą sugerować, że osoby starsze częściej zamieszkują obszary o wyższym poziomie zanieczyszczeń lub są dłużej narażone na ich oddziaływanie.
 
+# Wnioskowanie statystyczne
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(ggstatsplot)
+ggbetweenstats(
+  data = dane,
+  x = Gender,
+  y = Age,
+  bf.message = FALSE
+)
+```
+Analiza zachorowalności na nowotwór płuca wykazała istotne różnice wieku zachorowania pomiędzy kobietami i mężczyznami. Badaniem objęto 1000 przypadków, w tym 598 mężczyzn oraz 402 kobiety. Średni wiek zachorowania u mężczyzn wyniósł 39 lat, natomiast u kobiet 34 lata. Różnica ta była statystycznie istotna (p < 0,001).
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+library(ggpubr)
+
+dane %>%
+  select(Age, Gender) %>%
+  ggplot(aes(x = Gender, y = Age)) +
+
+  # violin – jasny turkus
+  geom_violin(
+    fill = "#7FE7E7",
+    alpha = 0.9,
+    trim = FALSE,
+    color = NA
+  ) +
+
+  # boxplot – ciemniejszy turkus
+  geom_boxplot(
+    width = 0.15,
+    outlier.shape = NA,
+    fill = "#4DB6AC",
+    alpha = 0.85
+  ) +
+
+  # średnia – czarna kropka
+  stat_summary(
+    fun = mean,
+    geom = "point",
+    shape = 21,
+    size = 4,
+    fill = "black",
+    color = "black"
+  ) +
+
+  # ± SD – czarne belki
+  stat_summary(
+    fun.data = mean_sdl,
+    fun.args = list(mult = 1),
+    geom = "errorbar",
+    width = 0.12,
+    color = "black"
+  ) +
+
+  # p-value
+  stat_compare_means(
+    method = "t.test",
+    label = "p.format",
+    color = "black"
+  ) +
+
+  labs(
+    title = "Wiek zachorowania na nowotwór płuca wg płci",
+    subtitle = "Średnia ± SD; test t-Studenta",
+    x = "Płeć",
+    y = "Wiek (lata)"
+  ) +
+
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 18, hjust = 0),
+    axis.title = element_text(face = "bold"),
+    panel.grid.minor = element_blank(),
+    legend.position = "none"
+  )
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(ggstatsplot)
+
+library(dplyr)
+
+
+# Tworzymy nową kolumnę Level_num automatycznie
+# Każdy unikalny poziom Level (tekst lub factor) zostanie zamieniony na liczbę
+dane_clean <- dane %>%
+  mutate(
+    Level_num = as.numeric(factor(Level))  # automatyczne mapowanie wszystkich unikalnych wartości
+  ) %>%
+  filter(
+    !is.na(Age),         # usuwa brakujące wieki
+    !is.na(Level_num)    # usuwa brakujące poziomy choroby
+  )
+
+# Sprawdzamy, czy zostały wiersze
+if(nrow(dane_clean) == 0) {
+  stop("Po oczyszczeniu danych nie ma żadnych wierszy! Sprawdź kolumny Age i Level.")
+}
+
+# Rysujemy wykres
+ggscatterstats(
+  data = dane_clean,
+  x = Age,
+  y = Level_num,
+  xlab = "Wiek",
+  ylab = "Poziom zaawansowania choroby",
+  title = "Związek wieku z poziomem zaawansowania choroby nowotworowej",
+  subtitle = "Test korelacji Spearmana",
+  conf.level = 0.95,
+  point.color = "cyan4",
+  point.alpha = 0.6,
+  marginal.type = "histogram",
+  marginal.fill = "cyan3",
+  marginal.alpha = 0.7
+)
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# 1. Tworzymy tabelę kontyngencji i wykonujemy chi-kwadrat
+table_chi <- table(dane$Gender, dane$`Passive.Smoker`)
+chi_result <- chisq.test(table_chi)
+
+# zapisujemy wynik p-value jako tekst do wykresu
+p_text <- paste0("Chi-sq p = ", signif(chi_result$p.value, 3))
+
+# 2. Przygotowujemy dane do wykresu
+plot_data <- dane %>%
+  filter(!is.na(Passive.Smoker)) %>%
+  group_by(Gender, Passive.Smoker) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  group_by(Gender) %>%
+  mutate(percent = count / sum(count) * 100)
+
+# 3. Tworzymy wykres słupkowy z procentami i adnotacją p-value
+ggplot(plot_data, aes(x = Gender, y = percent, fill = Passive.Smoker)) +
+  geom_col(position = "stack") +
+  geom_text(aes(label = paste0(round(percent,1), "%")),
+            position = position_stack(vjust = 0.5), color = "white") +
+  labs(title = "Rozkład biernego palenia w zależności od płci",
+       subtitle = p_text,
+       x = "Płeć",
+       y = "Procent",
+       fill = "Passive.Smoker") +
+  theme_minimal()
+```
