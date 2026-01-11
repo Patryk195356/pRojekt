@@ -440,7 +440,7 @@ dane %>%
 ```
 Zaobserwowano, że przy wzroście poziomu choroby z niskiego do średniego wzrasta mediana wieku, natomiast przy przejściu z poziomu średniego do wysokiego spada.
 
-3. Płeć a poziom choroby
+3. Płeć a poziom choroby - TEN JUZ MAMY!!!!!!!!!
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 dane %>%
@@ -472,7 +472,7 @@ dane %>%
 ```
 Analiza wskazuje na występowanie różnic w częstości poszczególnych poziomów choroby pomiędzy płciami, co może świadczyć o odmiennym przebiegu lub czynnikach ryzyka choroby w zależności od płci.
 
-4. Wiek a palenie
+4. Wiek a palenie - WYKRES CHYBA NIE GRA ??????????
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 dane %>%
@@ -492,6 +492,27 @@ ggplot(dane, aes(x = Smoking, y = Age)) +
   ) +
   labs(y = "Age")
 ```
+TESTOWANE
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(gtsummary)
+
+# Statystyki opisowe wieku dla poziomów palenia
+opis <- dane %>%
+  select(Age, Smoking) %>%
+  tbl_summary(
+    by = Smoking,
+    statistic = Age ~ "{mean} ± {sd} | {median} ({p25}, {p75})",
+    digits = Age ~ 1
+  ) %>%
+  add_overall() %>%
+  bold_labels()
+
+# Korelacja rangowa Spearmana (główna miara związku)
+cor.test(dane$Age, dane$Smoking, method = "spearman")
+```
+
+
 Wyniki wskazują na zróżnicowanie wieku badanych w zależności od poziomu palenia. W wyższych kategoriach palenia mediana wieku jest na ogół wyższa, co sugeruje, że intensywniejsze palenie częściej dotyczy osób starszych. Należy jednak zaznaczyć, że w niektórych kategoriach, zwłaszcza o małej liczebności, obserwacje należy interpretować ostrożnie.
 
 5. Wiek a poziom zanieczyszczenia powietrza
@@ -517,105 +538,46 @@ Wyniki mogą sugerować, że osoby starsze częściej zamieszkują obszary o wy�
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggstatsplot)
-ggbetweenstats(
+library(ggplot2)
+
+p <- ggbetweenstats(
   data = dane,
   x = Gender,
   y = Age,
-  bf.message = FALSE
+  bf.message = FALSE,
+  xlab = "Płeć",
+  ylab = "Wiek",
+  title = "Porównanie wieku kobiet i mężczyzn"
 )
+
+p +
+  scale_fill_manual(values = c("cyan3", "cyan4")) +
+  scale_color_manual(values = c("cyan3", "cyan4"))
+
 ```
+
 Analiza zachorowalności na nowotwór płuca wykazała istotne różnice wieku zachorowania pomiędzy kobietami i mężczyznami. Badaniem objęto 1000 przypadków, w tym 598 mężczyzn oraz 402 kobiety. Średni wiek zachorowania u mężczyzn wyniósł 39 lat, natomiast u kobiet 34 lata. Różnica ta była statystycznie istotna (p < 0,001).
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-
-library(ggpubr)
-
-dane %>%
-  select(Age, Gender) %>%
-  ggplot(aes(x = Gender, y = Age)) +
-
-  # violin – jasny turkus
-  geom_violin(
-    fill = "#7FE7E7",
-    alpha = 0.9,
-    trim = FALSE,
-    color = NA
-  ) +
-
-  # boxplot – ciemniejszy turkus
-  geom_boxplot(
-    width = 0.15,
-    outlier.shape = NA,
-    fill = "#4DB6AC",
-    alpha = 0.85
-  ) +
-
-  # średnia – czarna kropka
-  stat_summary(
-    fun = mean,
-    geom = "point",
-    shape = 21,
-    size = 4,
-    fill = "black",
-    color = "black"
-  ) +
-
-  # ± SD – czarne belki
-  stat_summary(
-    fun.data = mean_sdl,
-    fun.args = list(mult = 1),
-    geom = "errorbar",
-    width = 0.12,
-    color = "black"
-  ) +
-
-  # p-value
-  stat_compare_means(
-    method = "t.test",
-    label = "p.format",
-    color = "black"
-  ) +
-
-  labs(
-    title = "Wiek zachorowania na nowotwór płuca wg płci",
-    subtitle = "Średnia ± SD; test t-Studenta",
-    x = "Płeć",
-    y = "Wiek (lata)"
-  ) +
-
-  theme_minimal(base_size = 14) +
-  theme(
-    plot.title = element_text(face = "bold", size = 18, hjust = 0),
-    axis.title = element_text(face = "bold"),
-    panel.grid.minor = element_blank(),
-    legend.position = "none"
-  )
-
-```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggstatsplot)
 
 library(dplyr)
 
-
-# Tworzymy nową kolumnę Level_num automatycznie
-# Każdy unikalny poziom Level (tekst lub factor) zostanie zamieniony na liczbę
 dane_clean <- dane %>%
   mutate(
-    Level_num = as.numeric(factor(Level))  # automatyczne mapowanie wszystkich unikalnych wartości
+    Level_num = as.numeric(factor(Level)) 
   ) %>%
   filter(
-    !is.na(Age),         # usuwa brakujące wieki
-    !is.na(Level_num)    # usuwa brakujące poziomy choroby
+    !is.na(Age),         
+    !is.na(Level_num)    
   )
 
-# Sprawdzamy, czy zostały wiersze
 if(nrow(dane_clean) == 0) {
   stop("Po oczyszczeniu danych nie ma żadnych wierszy! Sprawdź kolumny Age i Level.")
 }
 
-# Rysujemy wykres
+#wykres
 ggscatterstats(
   data = dane_clean,
   x = Age,
@@ -633,7 +595,10 @@ ggscatterstats(
 )
 
 ```
-
+Analiza nie wykazała istotnej zależności między wiekiem pacjentów a poziomem zaawansowania choroby nowotworowej. 
+Współczynnik korelacji Pearsona był bardzo niski (r = 0,04), a wartość p = 0,18 wskazuje na brak istotności statystycznej.
+Przedział ufności obejmujący zero dodatkowo potwierdza, że obserwowany słaby trend może być przypadkowy.
+Oznacza to, że w badanej grupie wiek nie jest istotnym czynnikiem różnicującym stopień zaawansowania choroby.
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 table_chi <- table(dane$Gender, dane$`Passive.Smoker`)
 chi_result <- chisq.test(table_chi)
@@ -649,13 +614,26 @@ plot_data <- dane %>%
 
 ggplot(plot_data, aes(x = Gender, y = percent, fill = Passive.Smoker)) +
   geom_col(position = "stack") +
-  geom_text(aes(label = paste0(round(percent,1), "%")),
-            position = position_stack(vjust = 0.5), color = "white") +
-  labs(title = "Rozkład biernego palenia w zależności od płci",
-       subtitle = p_text,
-       x = "Płeć",
-       y = "Procent",
-       fill = "Passive.Smoker") +
+  geom_text(
+    aes(label = paste0(round(percent,1), "%")),
+    position = position_stack(vjust = 0.5),
+    color = "white",
+    size = 4
+  ) +
+  scale_fill_gradientn(
+    colors = c("#E0FFFF", "cyan3", "cyan4", "#2F4F4F"),
+    name = "Bierne palenie\n(1–8)"
+  ) +
+  labs(
+    title = "Rozkład biernego palenia w zależności od płci",
+    subtitle = p_text,
+    x = "Płeć",
+    y = "Procent"
+  ) +
   theme_minimal()
-```
 
+```
+Rozkład poziomu biernego palenia istotnie różni się pomiędzy kobietami i mężczyznami. Potwierdza to silny wynik testu chi-kwadrat.
+W grupie badanych kobiet wyraźnie przeważaja niskie i umiarkowane poziomy (szczególnie 2 i 4), które łącznie obejmują ponad połowę badanych kobiet. Najwyższe poziomy występują w tej grupie relatywnie rzadko. 
+W grupie badanych mężczyzn rozkład przesunięty jest w stronę wyższych poziomów. Blisko 40% mężczyzn znajduje się w dwóch najwyższych kategoriach narażenia, niski poziom biernego palenia występuje rzadziej niż u kobiet. 
+Mężczyźni są istotnie częściej narażeni na intensywne bierne palenie, co może stanowić ważny czynnik różnicujący ryzyko zdrowotne pomiędzy płciami.
