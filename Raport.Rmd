@@ -379,8 +379,8 @@ ggplot(dane, aes(x = as.numeric(Shortness.of.Breath), fill = Level)) +
 Wraz ze wzrostem częstotliwości duszności, zwiększa się odsetek osób z zaawansowanym poziomem choroby. Wskazuje to na związek między nasileniem duszności a pogarszającym się stanem zdrowia pacjentów.
 
 # Statystyki opisowe
-
-```{r message=FALSE, warning=FALSE}
+1. Płeć, wiek a ryzyko genetyczne
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 library(gtsummary)
 library(tidyverse)
@@ -394,5 +394,57 @@ dane %>%
               add_n() %>%
               bold_labels()
 ```
-              
+Analiza statystyczna wykazała istotne różnice w rozkładzie wieku oraz ryzyka genetycznego pomiędzy płciami. Kobiety wykazywały niższy odsetek wysokiego ryzyka genetycznego w porównaniu do mężczyzn. Różnice te mogą sugerować odmienne predyspozycje genetyczne lub wpływ czynników środowiskowych związanych z płcią.
+2. Wiek a poziom choroby 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ dane %>%
+  select(Age, Level) %>%
+  tbl_summary(
+    by = Level,
+    statistic = Age ~ "{median} ({p25}–{p75})",
+    missing = "no"
+  ) %>%
+  add_n() %>%
+  bold_labels()             
+```
+Zaobserwowano, że wraz ze wzrostem poziomu choroby mediana wieku badanych ulega zwiększeniu, co może sugerować, że wyższy stopień zaawansowania choroby częściej dotyczy osób starszych. 
+
+3. Płeć a poziom choroby
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+dane %>%
+  select(Gender, Level) %>%
+  tbl_summary(
+    by = Gender,
+    statistic = Level ~ "{n} ({p}%)",
+    missing = "no"
+  ) %>%
+  add_overall()
+```
+Analiza wskazuje na występowanie różnic w częstości poszczególnych poziomów choroby pomiędzy płciami, co może świadczyć o odmiennym przebiegu lub czynnikach ryzyka choroby w zależności od płci.
+
+4. Wiek a palenie
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+dane %>%
+  select(Age, Smoking) %>%
+  tbl_summary(
+    by = Smoking,
+    statistic = Age ~ "{median} ({p25}–{p75})",
+    missing = "no"
+  ) %>%
+  add_n()
+```
+Wyniki wskazują na zróżnicowanie wieku badanych w zależności od poziomu palenia. W wyższych kategoriach palenia mediana wieku jest na ogół wyższa, co sugeruje, że intensywniejsze palenie częściej dotyczy osób starszych. Należy jednak zaznaczyć, że w niektórych kategoriach, zwłaszcza o małej liczebności, obserwacje należy interpretować ostrożnie.
+
+5. Wiek a poziom zanieczyszczenia powietrza
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+dane %>%
+  select(Age, `Air.Pollution`) %>%
+  tbl_summary(
+    by = `Air.Pollution`,
+    statistic = Age ~ "{median} ({p25}–{p75})",
+    missing = "no"
+  )
+```
+Wyniki mogą sugerować, że osoby starsze częściej zamieszkują obszary o wyższym poziomie zanieczyszczeń lub są dłużej narażone na ich oddziaływanie.
 
