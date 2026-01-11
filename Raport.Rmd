@@ -384,18 +384,6 @@ Wraz ze wzrostem częstotliwości duszności, zwiększa się odsetek osób z zaa
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-library(gtsummary)
-library(tidyverse)
-
-dane %>%
-  select(Age, Gender, Genetic.Risk) %>%
-  tbl_summary(by = Gender,
-              missing = "no") %>%
-              add_p() %>%
-              add_overall() %>%
-              add_n() %>%
-              bold_labels()
-
 dane %>%
   ggplot(aes(
     x = Gender,
@@ -414,13 +402,18 @@ dane %>%
     size = 1,
     show.legend = FALSE
   ) +
+  scale_fill_gradient(low = "cyan3", high = "cyan4") +
+  scale_color_gradient(low = "cyan3", high = "cyan4") +
   labs(
+    title = "Płeć, wiek a ryzyko genetyczne",
     x = "Płeć",
     y = "Wiek",
     fill = "Ryzyko genetyczne"
   ) +
   theme_minimal()
+
 ```
+
 Analiza statystyczna wykazała istotne różnice w rozkładzie wieku oraz ryzyka genetycznego pomiędzy płciami. Kobiety wykazywały niższy odsetek wysokiego ryzyka genetycznego w porównaniu do mężczyzn. Różnice te mogą sugerować odmienne predyspozycje genetyczne lub wpływ czynników środowiskowych związanych z płcią.
 
 2. Wiek a poziom choroby 
@@ -437,8 +430,9 @@ Analiza statystyczna wykazała istotne różnice w rozkładzie wieku oraz ryzyka
   bold_labels()  
 dane %>%
   ggplot(aes(x = Level, y = Age)) +
-  geom_boxplot(fill = "grey80") +
+  geom_boxplot(fill = "cyan3") +
   labs(
+    title = "Wiek a poziom choroby",
     x = "Level",
     y = "Wiek"
   ) +
@@ -463,12 +457,13 @@ dane %>%
   geom_col(position = "fill") +
   scale_fill_manual(
     values = c(
-      "Low" = "#E0FFFF",    
-      "Medium" = "#7FDBFF", 
-      "High" = "#00BFFF"     
+      "Low"    = "cyan2",
+    "Medium" = "cyan3",
+    "High"   = "cyan4"     
     )
   ) +
   labs(
+    title = "Płeć a poziom choroby",
     x = "Płeć",
     y = "Proporcja",
     fill = "Level"
@@ -489,7 +484,7 @@ dane %>%
   ) %>%
   add_n()
 ggplot(dane, aes(x = Smoking, y = Age)) +
-  geom_boxplot(fill = "lightblue", alpha = 0.5) +
+  geom_boxplot(fill = "cyan2", alpha = 0.5) +
   theme_minimal() +
   theme(
     legend.position = "none",
