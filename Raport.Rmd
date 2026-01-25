@@ -74,8 +74,7 @@ procent <- prop_complete_var(dane)*100
 
 ```
 
-
-W danych znajduje się `r procent` % kompletnych wartości 
+W danych znajduje się `r procent` % kompletnych wartości, nie stwierdzono brakujących wartości w żadnej z badanych zmiennych.
 ```{r echo=FALSE}
 naniar::vis_miss(dane)
 gg_miss_fct(x=dane, fct=Gender)
@@ -87,20 +86,26 @@ gg_miss_fct(x=dane, fct=Gender)
 library(finalfit)
 missing_pattern(dane)
 ```
+
+
 ## Walidacja danych
 
-Czy wiek <= 120?
+Czy wiek pacjentów w badanej grupie jest w przedziale (0;120) lat ?
 
 ```{r echo=FALSE}
 reguly <- validator(
   Age >0 , Age <120)
 ```
 
-```{r echo=FALSE}
-cf<- confront(dane, reguly, key="index")
+
+```{r echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+cf <- confront(dane, reguly, key = "index")
 summary(cf)
-barplot(cf)
+plot(cf)
+
 ```
+Walidacja danych potwierdziła, że wszystkie obserwacje spełniają założoną regułę poprawności, wiek jest większy od 0 i nie przekracza 120 lat. Dane mogą być bezpiecznie wykorzystane w dalszych etapach projektu.
+
 
 # Wizualizacja danych
 
