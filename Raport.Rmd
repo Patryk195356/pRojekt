@@ -18,7 +18,7 @@ output:
 ## Global options
 knitr::opts_chunk$set(cache = TRUE)
 dane <- read.csv("cancer patient data sets.csv")
-dane
+str(dane)
 library(tidyverse)
 
 library(naniar)
@@ -86,11 +86,15 @@ gg_miss_fct(x=dane, fct=Gender)
 library(finalfit)
 missing_pattern(dane)
 ```
+W celu sprawdzenia, czy w zbiorze danych występują braki danych, przeprowadzono analizę wzorca braków danych z wykorzystaniem funkcji missing_pattern.
 
+Wyniki analizy pokazują, że zbiór danych jest kompletny i nie zawiera wartości brakujących. Oznacza to, że dla wszystkich zmiennych dostępne są dane dla wszystkich 1000 pacjentów. Informację tę potwierdza wygenerowany komunikat, wskazuje że nie ma potrzeby stosowania metod uzupełniania braków danych.
+
+Również tabela z podsumowaniem danych wskazuje, że liczba brakujących wartości dla każdej zmiennej wynosi 0.
 
 ## Walidacja danych
 
-Czy wiek pacjentów w badanej grupie jest w przedziale (0;120) lat ?
+W ramach walidacji danych sprawdzono, czy wiek pacjentów w badanej grupie mieści się w logicznym przedziale od 0 do 120 lat.
 
 ```{r echo=FALSE}
 reguly <- validator(
@@ -104,7 +108,7 @@ summary(cf)
 plot(cf)
 
 ```
-Walidacja danych potwierdziła, że wszystkie obserwacje spełniają założoną regułę poprawności, wiek jest większy od 0 i nie przekracza 120 lat. Dane mogą być bezpiecznie wykorzystane w dalszych etapach projektu.
+Wyniki walidacji pokazują, że wszystkie obserwacje spełniają przyjęte kryterium. Na wykresie walidacji widoczny jest wyłącznie kolor zielony, co oznacza, że 100% danych przeszło poprawnie proces sprawdzania.Dane mogą być bezpiecznie wykorzystane w dalszych etapach naszego projektu.
 
 
 # Wizualizacja danych
@@ -385,140 +389,215 @@ Wraz ze wzrostem częstotliwości duszności, zwiększa się odsetek osób z zaa
 
 # Statystyki opisowe
 
-1. Płeć, wiek a ryzyko genetyczne
+```{r echo=FALSE, results='hide'}
+dane <- read.csv("cancer patient data sets.csv", stringsAsFactors = FALSE)
+
+# sprawdzamy
+str(dane$Gender)
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+dane2 <- dane %>%
+  mutate(
+    Gender = factor(Gender,
+                    levels = c(1, 2),
+                    labels = c("Mężczyzna", "Kobieta")),
+    Level = factor(Level,
+                   levels = c("Low", "Medium", "High"))
+  )
+
+# sprawdzenie czy działa
+invisible(table(dane2$Gender))
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tab_plec_poziom <- dane2 %>%
+  tbl_cross(
+    row = Gender,
+    col = Level,
+    percent = "row"
+  ) %>%
+  modify_caption("**Płeć a poziom zaawansowania choroby (procenty w obrębie płci)**")
+
+tab_plec_poziom
+```
+Poziom zaawansowania choroby nowotworowej różni się w zależności od płci pacjentów. Wśród mężczyzn największy odsetek stanowią osoby z wysokim poziomem zaawansowania choroby, natomiast wśród kobiet częściej występuje niski poziom choroby. Poziom średni występuje z podobną częstością w obu grupach
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+dane2 %>%
+  select(Level, Age) %>%
+  tbl_summary(
+    by = Level,
+    statistic = Age ~ "{mean} ± {sd} | {median} [{p25}; {p75}]",
+    digits = Age ~ 1
+  ) %>%
+  add_n()
+```
+Z tabel wynika, że wiek pacjentów różni się w zależności od poziomu zaawansowania choroby nowotworowej. Najmłodsi pacjenci znajdują się w grupie z niskim poziomem choroby, gdzie średni wiek wynosi 35,4 roku. Najwyższy średni wiek zaobserwowano w grupie 'Medium' - 38,6 roku.
+
+Mediana wieku również jest najwyższa w grupie w średniozaawansowanym poziomem choroby (38 lat), a najniższa w grupie niskiego zaawansowania (33 lata). W grupie 'High' średni i medianowy wiek są nieco niższe niż w grupie 'Medium', ale wyższe niż w grupie 'Low'. Rozkład wieku w poszczególnych grupach jest podobny, co potwierdzają zbliżone wartości kwartylowe.
+
+Na podstawie statystyk opisowych można zauważyć, że wyższy poziom zaawansowania choroby wiąże się z nieco wyższym wiekiem pacjentów.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-dane %>%
-  ggplot(aes(
-    x = Gender,
-    y = Age,
-    fill = Genetic.Risk
-  )) +
+ggplot(dane2, aes(x = Gender, y = Age)) +
   geom_boxplot(
-    alpha = 0.6,
-    outlier.shape = NA,
-    position = position_dodge(width = 0.8)
+    fill = "grey90",
+    alpha = 0.8,
+    outlier.shape = NA
   ) +
   geom_jitter(
     aes(color = Genetic.Risk),
     width = 0.15,
-    alpha = 0.5,
-    size = 1,
-    show.legend = FALSE
+    alpha = 0.6,
+    size = 1.2
   ) +
-  scale_fill_gradient(low = "cyan3", high = "cyan4") +
   scale_color_gradient(low = "cyan3", high = "cyan4") +
   labs(
     title = "Płeć, wiek a ryzyko genetyczne",
     x = "Płeć",
     y = "Wiek",
-    fill = "Ryzyko genetyczne"
+    color = "Ryzyko genetyczne"
   ) +
   theme_minimal()
 
 ```
+Kobiety wykazywały niższy odsetek wysokiego ryzyka genetycznego w porównaniu do mężczyzn. Różnice te mogą sugerować odmienne predyspozycje genetyczne lub wpływ czynników środowiskowych związanych z płcią.
 
-Analiza statystyczna wykazała istotne różnice w rozkładzie wieku oraz ryzyka genetycznego pomiędzy płciami. Kobiety wykazywały niższy odsetek wysokiego ryzyka genetycznego w porównaniu do mężczyzn. Różnice te mogą sugerować odmienne predyspozycje genetyczne lub wpływ czynników środowiskowych związanych z płcią.
-
-2. Wiek a poziom choroby 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
- dane %>%
-  select(Age, Level) %>%
-  tbl_summary(
-    by = Level,
-    statistic = Age ~ "{median} ({p25}–{p75})",
-    missing = "no"
+tab_palenie <- dane2 %>%
+  group_by(Level) %>%
+  summarise(
+    Liczba = n(),
+    `Średnia ± SD` = sprintf("%.1f ± %.1f", mean(Smoking), sd(Smoking)),
+    `Mediana [Q1; Q3]` = sprintf("%d [%d; %d]",
+                                median(Smoking),
+                                quantile(Smoking, 0.25),
+                                quantile(Smoking, 0.75)),
+    `Zakres (min–max)` = sprintf("%d–%d", min(Smoking), max(Smoking)),
+    .groups = "drop"
+  )
+
+knitr::kable(
+  tab_palenie,
+  caption = "Palenie tytoniu w grupach poziomu zaawansowania choroby"
+)
+```
+Na podstawie tabeli można wywnioskować, że wyższy poziom zaawansowania choroby wiąże się z większym nasileniem palenia tytoniu.
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(knitr)
+
+tab_objawy <- dane2 %>%
+  group_by(Level) %>%
+  summarise(
+    `Kaszel z krwią (średnia ± SD)` =
+      sprintf("%.1f ± %.1f", mean(Coughing.of.Blood), sd(Coughing.of.Blood)),
+    `Duszność (średnia ± SD)` =
+      sprintf("%.1f ± %.1f", mean(Shortness.of.Breath), sd(Shortness.of.Breath)),
+    `Zmęczenie (średnia ± SD)` =
+      sprintf("%.1f ± %.1f", mean(Fatigue), sd(Fatigue)),
+    .groups = "drop"
+  )
+
+knitr::kable(
+  tab_objawy,
+  caption = "Nasilenie wybranych objawów w grupach wg. poziomu zaawansowania choroby"
+)
+```
+Nasilenie objawów klinicznych rośnie wraz z poziomem zaawansowania choroby nowotworowej. Pacjenci z wyższym poziomem choroby częściej zgłaszają silniejszy kaszel z krwią, duszność oraz zmęczenie.
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=8, fig.height=6}
+#probna heatmapa-objawy
+vars <- c(
+  "Age",
+  "Air.Pollution",
+  "Alcohol.use",
+  "OccuPational.Hazards",
+  "Smoking",
+  "Passive.Smoker",
+  "Obesity",
+  "Balanced.Diet",
+  "Genetic.Risk",
+  "chronic.Lung.Disease",
+  "Coughing.of.Blood",
+  "Shortness.of.Breath",
+  "Fatigue"
+)
+
+# dane do heatmapy
+heat_df <- dane2 %>%
+  select(Level, all_of(vars)) %>%
+  group_by(Level) %>%
+  summarise(
+    across(all_of(vars), ~ mean(.x, na.rm = TRUE)),
+    .groups = "drop"
   ) %>%
-  add_n() %>%
-  bold_labels()  
-dane %>%
-  ggplot(aes(x = Level, y = Age)) +
-  geom_boxplot(fill = "cyan3") +
+  pivot_longer(
+    cols = -Level,
+    names_to = "Zmienna",
+    values_to = "Srednia"
+  ) %>%
+  group_by(Zmienna) %>%     
+  mutate(Srednia_z = as.numeric(scale(Srednia))) %>%
+  ungroup()
+
+# heatmapa
+ggplot(heat_df, aes(x = Level, y = Zmienna, fill = Srednia_z)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient2(
+    low = "cyan",
+    mid = "white",
+    high = "cyan3",
+    midpoint = 0
+  ) +
   labs(
-    title = "Wiek a poziom choroby",
-    x = "Level",
-    y = "Wiek"
+    title = "Średnie czynników a poziom choroby",
+    subtitle = "Wartości standaryzowane",
+    x = "Poziom zaawansowania choroby",
+    y = "Czynnik/objaw",
+    fill = "Poziom"
   ) +
-  theme_minimal()
-```
-Zaobserwowano, że przy wzroście poziomu choroby z niskiego do średniego wzrasta mediana wieku, natomiast przy przejściu z poziomu średniego do wysokiego spada.
-
-3. Płeć a poziom choroby - TEN JUZ MAMY!!!!!!!!!
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-dane %>%
-  select(Gender, Level) %>%
-  tbl_summary(
-    by = Gender,
-    statistic = Level ~ "{n} ({p}%)",
-    missing = "no"
-  ) %>%
-  add_overall()
-dane %>%
-  count(Gender, Level) %>%
-  ggplot(aes(x = Gender, y = n, fill = Level)) +
-  geom_col(position = "fill") +
-  scale_fill_manual(
-    values = c(
-      "Low"    = "cyan2",
-    "Medium" = "cyan3",
-    "High"   = "cyan4"     
-    )
-  ) +
-  labs(
-    title = "Płeć a poziom choroby",
-    x = "Płeć",
-    y = "Proporcja",
-    fill = "Level"
-  ) +
-  theme_minimal()
-```
-Analiza wskazuje na występowanie różnic w częstości poszczególnych poziomów choroby pomiędzy płciami, co może świadczyć o odmiennym przebiegu lub czynnikach ryzyka choroby w zależności od płci.
-
-4. Wiek a palenie - WYKRES CHYBA NIE GRA ??????????
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-dane %>%
-  select(Age, Smoking) %>%
-  tbl_summary(
-    by = Smoking,
-    statistic = Age ~ "{median} ({p25}–{p75})",
-    missing = "no"
-  ) %>%
-  add_n()
-ggplot(dane, aes(x = Smoking, y = Age)) +
-  geom_boxplot(fill = "cyan2", alpha = 0.5) +
   theme_minimal() +
   theme(
-    legend.position = "none",
-    axis.title.x = element_blank()
-  ) +
-  labs(y = "Age")
+    axis.text.y = element_text(size = 9),
+    axis.text.x = element_text(size = 10),
+    plot.title = element_text(face = "bold")
+  )
 ```
-TESTOWANE
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-library(dplyr)
-library(gtsummary)
+Wykres pokazuje, że wraz ze wzrostem poziomu zaawansowania choroby rośnie nasilenie większości analizowanych objawów i czynników. Najwyższe wartości widoczne są w grupie High, szczególnie dla kaszlu z krwią, duszności oraz zmęczenia. Wyniki te sugerują, że bardziej zaawansowana choroba wiąże się z silniejszym występowaniem objawów.
 
-# Statystyki opisowe wieku dla poziomów palenia
-opis <- dane %>%
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+opis1 <- dane2 %>%
   select(Age, Smoking) %>%
   tbl_summary(
     by = Smoking,
-    statistic = Age ~ "{mean} ± {sd} | {median} ({p25}, {p75})",
+    statistic = Age ~ "{mean} ± {sd} | {median} [{p25}; {p75}]",
     digits = Age ~ 1
   ) %>%
-  add_overall() %>%
+  add_overall(last = TRUE) %>%   # kolumna Ogółem na końcu
   bold_labels()
 
-# Korelacja rangowa Spearmana (główna miara związku)
-cor.test(dane$Age, dane$Smoking, method = "spearman")
+opis1
+
+#Spearman tabela
+testS <- cor.test(dane2$Age, dane2$Smoking, method = "spearman")
+
+tab_test <- data.frame(
+  `Test` = "Korelacja rang Spearmana",
+  `rho` = round(unname(testS$estimate), 3),
+  `p-value` = round(testS$p.value, 4),
+  `N` = nrow(dane2)
+)
+
+kable(tab_test, caption = "Wynik testu korelacji Spearmana dla wieku i palenia")
 ```
-
-
-Wyniki wskazują na zróżnicowanie wieku badanych w zależności od poziomu palenia. W wyższych kategoriach palenia mediana wieku jest na ogół wyższa, co sugeruje, że intensywniejsze palenie częściej dotyczy osób starszych. Należy jednak zaznaczyć, że w niektórych kategoriach, zwłaszcza o małej liczebności, obserwacje należy interpretować ostrożnie.
+Chociaż według wcześniejszych statystyk opisowych średni wiek pacjentów różni się pomiędzy grupami poziomu zaawansowania choroby, test korelacji Spearmana nie wykazał istotnej zależności pomiędzy wiekiem a poziomem palenia tytoniu.
 
 5. Wiek a poziom zanieczyszczenia powietrza
 
@@ -540,6 +619,7 @@ ggplot(dane, aes(x = `Air.Pollution`, y = Age, color = `Air.Pollution`)) +
 Wyniki mogą sugerować, że osoby starsze częściej zamieszkują obszary o wyższym poziomie zanieczyszczeń lub są dłużej narażone na ich oddziaływanie.
 
 # Wnioskowanie statystyczne
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggstatsplot)
