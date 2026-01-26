@@ -408,19 +408,26 @@ dane2 <- dane %>%
                    levels = c("Low", "Medium", "High"))
   )
 
-# sprawdzenie czy działa
+# sprawdzenie czy działa 
 invisible(table(dane2$Gender))
 
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(gtsummary)
 tab_plec_poziom <- dane2 %>%
   tbl_cross(
     row = Gender,
     col = Level,
     percent = "row"
   ) %>%
-  modify_caption("**Płeć a poziom zaawansowania choroby (procenty w obrębie płci)**")
+  modify_caption("**Płeć a poziom zaawansowania choroby (procenty w obrębie płci)**") %>%
+  modify_header(
+    label ~ "**Płeć**"
+  ) %>%
+  bold_labels() %>%
+  italicize_levels() %>%
+  add_overall(last = TRUE)
 
 tab_plec_poziom
 ```
@@ -550,9 +557,9 @@ heat_df <- dane2 %>%
 ggplot(heat_df, aes(x = Level, y = Zmienna, fill = Srednia_z)) +
   geom_tile(color = "white") +
   scale_fill_gradient2(
-    low = "cyan",
+    low = "cyan3",
     mid = "white",
-    high = "cyan3",
+    high = "cyan4",
     midpoint = 0
   ) +
   labs(
@@ -572,6 +579,29 @@ ggplot(heat_df, aes(x = Level, y = Zmienna, fill = Srednia_z)) +
 Wykres pokazuje, że wraz ze wzrostem poziomu zaawansowania choroby rośnie nasilenie większości analizowanych objawów i czynników. Najwyższe wartości widoczne są w grupie High, szczególnie dla kaszlu z krwią, duszności oraz zmęczenia. Wyniki te sugerują, że bardziej zaawansowana choroba wiąże się z silniejszym występowaniem objawów.
 
 
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=4.8, dpi=150}
+
+df <- dane2 %>%
+  mutate(Air.Pollution = factor(Air.Pollution, levels = 1:8))
+
+mediany <- df %>%
+  group_by(Air.Pollution) %>%
+  summarise(mediana = median(Age), .groups = "drop")
+
+ggplot(df, aes(x = Air.Pollution, y = Age)) +
+  geom_boxplot(fill = "cyan4", alpha = 0.9, outlier.shape = NA, width = 0.65) +
+  geom_point(data = mediany, aes(y = mediana, group = 1), color = "black", size = 2) +
+  geom_line(data = mediany, aes(y = mediana, group = 1), color = "cyan", linewidth = 1) +
+  labs(
+    title = "Wiek pacjentów a poziom zanieczyszczenia powietrza",
+    x = "Poziom zanieczyszczenia powietrza",
+    y = "Wiek"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(plot.title = element_text(face = "bold"))
+```
+
+Wyniki mogą sugerować, że osoby starsze częściej zamieszkują obszary o wyższym poziomie zanieczyszczeń lub są dłużej narażone na ich oddziaływanie.
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 opis1 <- dane2 %>%
   select(Age, Smoking) %>%
@@ -580,43 +610,63 @@ opis1 <- dane2 %>%
     statistic = Age ~ "{mean} ± {sd} | {median} [{p25}; {p75}]",
     digits = Age ~ 1
   ) %>%
-  add_overall(last = TRUE) %>%   # kolumna Ogółem na końcu
+  add_overall(last = TRUE) %>%
   bold_labels()
 
-opis1
-
-#Spearman tabela
 testS <- cor.test(dane2$Age, dane2$Smoking, method = "spearman")
 
 tab_test <- data.frame(
-  `Test` = "Korelacja rang Spearmana",
-  `rho` = round(unname(testS$estimate), 3),
-  `p-value` = round(testS$p.value, 4),
-  `N` = nrow(dane2)
+  Test = "Korelacja rang Spearmana",
+  rho = round(unname(testS$estimate), 3),
+  p.value = round(testS$p.value, 4),
+  N = nrow(dane2)
 )
 
-kable(tab_test, caption = "Wynik testu korelacji Spearmana dla wieku i palenia")
+knitr::kable(
+  tab_test,
+  caption = "Wynik testu korelacji Spearmana dla wieku i palenia"
+)
 ```
 Chociaż według wcześniejszych statystyk opisowych średni wiek pacjentów różni się pomiędzy grupami poziomu zaawansowania choroby, test korelacji Spearmana nie wykazał istotnej zależności pomiędzy wiekiem a poziomem palenia tytoniu.
 
-5. Wiek a poziom zanieczyszczenia powietrza
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-library(ggbeeswarm)
-dane %>%
-  select(Age, `Air.Pollution`) %>%
-  tbl_summary(
-    by = `Air.Pollution`,
-    statistic = Age ~ "{median} ({p25}–{p75})",
-    missing = "no"
+library(dplyr)
+library(purrr)
+library(knitr)
+
+#Dane
+dane_spear <- dane2 %>%
+  mutate(
+    Level_num = as.numeric(factor(Level, levels = c("Low", "Medium", "High"))),
+    Air.Pollution_num = as.numeric(as.character(Air.Pollution))
   )
-ggplot(dane, aes(x = `Air.Pollution`, y = Age, color = `Air.Pollution`)) +
-  geom_beeswarm(alpha = 0.5, size = 2) +
-  theme_minimal() +
-  theme(legend.position = "none", axis.title.x = element_blank()) +
-  labs(y = "Age")
+
+#zmienne wybrane
+zmienne <- c("Smoking", "Air.Pollution_num", "Genetic.Risk")
+
+#Testy Spearmana
+wyniki_spearman <- map_dfr(zmienne, function(z) {
+  test <- cor.test(dane_spear[[z]], dane_spear$Level_num,
+                   method = "spearman")
+  
+  data.frame(
+    Zmienna = z,
+    rho = round(unname(test$estimate), 3),
+    `p-value` = ifelse(test$p.value < 0.001, "< 0.001",
+                       round(test$p.value, 4)),
+    N = nrow(dane_spear)
+  )
+})
+
+# nasza tabela
+kable(
+  wyniki_spearman,
+  caption = "Korelacje rang Spearmana pomiędzy wybranymi czynnikami a poziomem zaawansowania choroby"
+)
 ```
-Wyniki mogą sugerować, że osoby starsze częściej zamieszkują obszary o wyższym poziomie zanieczyszczeń lub są dłużej narażone na ich oddziaływanie.
+Wyniki powyższych trzech testów korelacji rang Spearmana pokazują, że wraz ze wzrostem palenia tytoniu, poziomu zanieczyszczenia powietrza oraz ryzyka genetycznego rośnie również poziom zaawansowania choroby. Najsłabszą zależność zaobserwowano dla palenia tytoniu, natomiast najsilniejszą dla ryzyka genetycznego. Wszystkie zależności są istotne statystycznie (p < 0,001).
+
 
 # Wnioskowanie statystyczne
 
