@@ -876,7 +876,7 @@ kable(
   align = "l"
 )
 ```
-
+Wyniki korelacji rang Spearmana wskazują na istotną statystycznie zależność pomiędzy nasileniem zmęczenia a poziomem zaawansowania choroby. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(knitr)
@@ -901,7 +901,40 @@ kable(
   align = "l"
 )
 ```
+Test Kruskala–Wallisa wykazał istotne statystycznie różnice w nasileniu zmęczenia pomiędzy poszczególnymi poziomami zaawansowania choroby.Pacjenci na różnych etapach choroby różnią się poziomem odczuwanego zmęczenia, a zmęczenie rośnie wraz z zaawansowaniem choroby.
 
 # Wnioski
 
+Celem przeprowadzonej analizy było udzielenie odpowiedzi na główny problem badawczy dotyczący identyfikacji czynników demograficznych, środowiskowych oraz związanych ze stylem życia, które mają wpływ na poziom zaawansowania choroby nowotworowej u badanych pacjentów.
+Dane nie zawierały istotnych braków, co pozwoliło na przeprowadzenie analiz na pełnej próbie 1000 obserwacji.
+Analiza opisowa wykazała wyraźne różnice pomiędzy grupami pacjentów o różnym poziomie zaawansowania choroby. Wraz ze wzrostem stopnia zaawansowania nowotworu obserwowano:
+
+***-wyższe nasilenie objawów klinicznych, takich jak kaszel z krwią, duszność oraz zmęczenie,***
+
+***-większą intensywność palenia tytoniu,***
+
+***-wyższe średnie wartości zanieczyszczenia powietrza i ryzyka genetycznego.***
+
+Wiek pacjentów był zróżnicowany pomiędzy grupami, jednak różnice te miały umiarkowany charakter. Analiza płci wykazała, że mężczyźni częściej znajdują się w grupie wysokiego zaawansowania choroby, natomiast kobiety częściej w grupie niskiego stopnia zaawansowania.
+Wykorzystane wizualizacje (wykresy pudełkowe, wykresy słupkowe, heatmapy) pozwoliły na czytelne przedstawienie zależności pomiędzy badanymi zmiennymi. Szczególnie wyraźnie widoczny był wzrost nasilenia objawów klinicznych wraz z postępem choroby. Wykresy potwierdziły również różnice w rozkładach palenia tytoniu i biernego palenia pomiędzy płciami oraz zróżnicowanie wieku pacjentów w zależności od poziomu zanieczyszczenia powietrza.
+W ramach wnioskowania statystycznego przeprowadzono szereg testów odpowiadających postawionym problemom badawczym.
+
+Test porównawczy dla dwóch prób niezależnych wykazał istotne statystycznie różnice wieku pomiędzy kobietami i mężczyznami.
+
+Korelacja rang Spearmana nie potwierdziła istotnej zależności pomiędzy wiekiem pacjentów a poziomem zaawansowania choroby.
+
+Test chi-kwadrat wykazał istotną zależność pomiędzy płcią a poziomem biernego palenia oraz pomiędzy płcią a poziomem zaawansowania choroby.
+
+Analizy korelacji Spearmana potwierdziły istotne dodatnie zależności pomiędzy:
+
+-paleniem tytoniu a poziomem zaawansowania choroby,
+
+-zanieczyszczeniem powietrza a poziomem zaawansowania choroby,
+
+-ryzykiem genetycznym a poziomem zaawansowania choroby.
+
+Najsilniejszą zależność zaobserwowano dla ryzyka genetycznego, a najsłabszą dla palenia tytoniu.
+
+Test Kruskala–Wallisa potwierdził istotne różnice w nasileniu zmęczenia pomiędzy poziomami zaawansowania choroby, co wskazuje, że zmęczenie rośnie wraz z postępem choroby.
+Na podstawie przeprowadzonych analiz można stwierdzić, że poziom zaawansowania choroby nowotworowej jest istotnie związany z czynnikami środowiskowymi, stylem życia oraz objawami klinicznymi. Szczególną rolę odgrywają palenie tytoniu, zanieczyszczenie powietrza oraz ryzyko genetyczne. Wiek pacjentów sam w sobie nie stanowi istotnego czynnika różnicującego stopień zaawansowania choroby, jednak różnice wieku są widoczne w zależności od płci.
 
