@@ -670,7 +670,9 @@ Wyniki powyższych trzech testów korelacji rang Spearmana pokazują, że wraz z
 
 # Wnioskowanie statystyczne
 
+W ramach wnioskowania statystycznego przeprowadzono analizę mającą na celu weryfikację postawionych na początku projektu problemów badawczych dotyczących wpływu czynników demograficznych, środowiskowych oraz związanych ze stylem życia na poziom zaawansowania choroby nowotworowej.
 
+***1. Do porównania wieku pacjentów w zależności od płci zastosowano test porównawczy dla dwóch prób niezależnych.***
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggstatsplot)
 library(ggplot2)
@@ -693,7 +695,7 @@ p +
 
 Analiza zachorowalności na nowotwór płuca wykazała istotne różnice wieku zachorowania pomiędzy kobietami i mężczyznami. Badaniem objęto 1000 przypadków, w tym 598 mężczyzn oraz 402 kobiety. Średni wiek zachorowania u mężczyzn wyniósł 39 lat, natomiast u kobiet 34 lata. Różnica ta była statystycznie istotna (p < 0,001).
 
-
+***2.Do oceny zależności pomiędzy wiekiem pacjentów a poziomem zaawansowania choroby nowotworowej zastosowano korelację rang Spearmana.***
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggstatsplot)
 
@@ -731,9 +733,11 @@ ggscatterstats(
 
 ```
 Analiza nie wykazała istotnej zależności między wiekiem pacjentów a poziomem zaawansowania choroby nowotworowej. 
-Współczynnik korelacji Pearsona był bardzo niski (r = 0,04), a wartość p = 0,18 wskazuje na brak istotności statystycznej.
+Współczynnik korelacji Spearmana był bardzo niski (r = 0,04), a wartość p = 0,18 wskazuje na brak istotności statystycznej.
 Przedział ufności obejmujący zero dodatkowo potwierdza, że obserwowany słaby trend może być przypadkowy.
 Oznacza to, że w badanej grupie wiek nie jest istotnym czynnikiem różnicującym stopień zaawansowania choroby.
+
+***3. Do oceny zależności pomiędzy płcią a poziomem biernego palenia zastosowano test chi-kwadrat niezależności.***
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 table_chi <- table(dane$Gender, dane$`Passive.Smoker`)
 chi_result <- chisq.test(table_chi)
@@ -772,6 +776,131 @@ Rozkład poziomu biernego palenia istotnie różni się pomiędzy kobietami i m�
 W grupie badanych kobiet wyraźnie przeważaja niskie i umiarkowane poziomy (szczególnie 2 i 4), które łącznie obejmują ponad połowę badanych kobiet. Najwyższe poziomy występują w tej grupie relatywnie rzadko. 
 W grupie badanych mężczyzn rozkład przesunięty jest w stronę wyższych poziomów. Blisko 40% mężczyzn znajduje się w dwóch najwyższych kategoriach narażenia, niski poziom biernego palenia występuje rzadziej niż u kobiet. 
 Mężczyźni są istotnie częściej narażeni na intensywne bierne palenie, co może stanowić ważny czynnik różnicujący ryzyko zdrowotne pomiędzy płciami.
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# tabela kontyngencji i chi kwadrat probny
+
+library(knitr)
+
+tab_gender_level <- table(dane$Gender, dane$Level)
+
+chi_gender_level <- chisq.test(tab_gender_level)
+
+chi_table <- data.frame(
+  Test = "Chi-kwadrat niezależności",
+  Zmienna_1 = "Płeć",
+  Zmienna_2 = "Poziom zaawansowania choroby",
+  `χ²` = round(chi_gender_level$statistic, 2),
+  df = chi_gender_level$parameter,
+  `p-value` = formatC(chi_gender_level$p.value, format = "e", digits = 2)
+)
+
+kable(
+  chi_table,
+  caption = "***4. Zależność pomiędzy płcią a poziomem zaawansowania choroby (test chi-kwadrat)***",
+  align = "l"
+)
+```
+Wynik testu chi-kwadrat wskazuje na istotną statystycznie zależność pomiędzy płcią a poziomem zaawansowania choroby (p < 0,001). Oznacza to, że rozkład stopni zaawansowania choroby różni się pomiędzy kobietami i mężczyznami, a płeć może być czynnikiem związanym z przebiegiem choroby.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+dane_spear <- dane %>%
+  mutate(Level_num = as.numeric(factor(Level)))
+
+test_smoking <- cor.test(
+  dane_spear$Smoking,
+  dane_spear$Level_num,
+  method = "spearman"
+)
+
+spear_smoking <- data.frame(
+  Test = "Korelacja rang Spearmana",
+  Zmienna = "Palenie tytoniu",
+  rho = round(unname(test_smoking$estimate), 3),
+  `p-value` = formatC(test_smoking$p.value, format = "e", digits = 2),
+  N = nrow(dane_spear)
+)
+
+kable(
+  spear_smoking,
+  caption = "***5. Zależność pomiędzy paleniem tytoniu a poziomem zaawansowania choroby***",
+  align = "l"
+)
+```
+Analiza korelacji rang Spearmana wykazała istotną statystycznie zależność pomiędzy nasileniem palenia tytoniu a poziomem zaawansowania choroby. Wraz ze wzrostem intensywności palenia obserwuje się wyższy poziom zaawansowania choroby.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+test_air <- cor.test(
+  dane_spear$Air.Pollution,
+  dane_spear$Level_num,
+  method = "spearman"
+)
+
+spear_air <- data.frame(
+  Test = "Korelacja rang Spearmana",
+  Zmienna = "Zanieczyszczenie powietrza",
+  rho = round(unname(test_air$estimate), 3),
+  `p-value` = formatC(test_air$p.value, format = "e", digits = 2),
+  N = nrow(dane_spear)
+)
+
+kable(
+  spear_air,
+  caption = "***6. Zależność pomiędzy zanieczyszczeniem powietrza a poziomem zaawansowania choroby***",
+  align = "l"
+)
+```
+Wyniki korelacji Spearmana wskazują na istotną statystycznie zależność pomiędzy poziomem zanieczyszczenia powietrza a zaawansowaniem choroby. Wyższe wartości zanieczyszczenia powietrza wiążą się z wyższym poziomem zaawansowania choroby.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+test_fatigue <- cor.test(
+  dane_spear$Fatigue,
+  dane_spear$Level_num,
+  method = "spearman"
+)
+
+spear_fatigue <- data.frame(
+  Test = "Korelacja rang Spearmana",
+  Zmienna = "Zmęczenie",
+  rho = round(unname(test_fatigue$estimate), 3),
+  `p-value` = formatC(test_fatigue$p.value, format = "e", digits = 2),
+  N = nrow(dane_spear)
+)
+
+kable(
+  spear_fatigue,
+  caption = "***7. Zależność pomiędzy nasileniem zmęczenia a poziomem zaawansowania choroby***",
+  align = "l"
+)
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(knitr)
+
+kw_fatigue <- kruskal.test(
+  Fatigue ~ Level,
+  data = dane2
+)
+
+kw_table <- data.frame(
+  Test = "Test Kruskala–Wallisa",
+  Zmienna = "Zmęczenie",
+  Grupy = "Poziom zaawansowania choroby",
+  `H` = round(unname(kw_fatigue$statistic), 2),
+  df = kw_fatigue$parameter,
+  `p-value` = signif(kw_fatigue$p.value, 3)
+)
+
+kable(
+  kw_table,
+  caption = "***8. Różnice w nasileniu zmęczenia pomiędzy poziomami zaawansowania choroby***",
+  align = "l"
+)
+```
 
 # Wnioski
 
